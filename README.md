@@ -1,36 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+﻿# مكتب الهوجان للمحاماة — موقع قانوني احترافي
 
-## Getting Started
+موقع ويب كامل بالعربية RTL لمكتب محاماة سعودي، مبني بـ Next.js 16 مع مساعد ذكاء اصطناعي "سالم" لإغلاق الصفقات.
 
-First, run the development server:
+## 🚀 Quick Start
 
+### 1. تثبيت الحزم
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install --legacy-peer-deps
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. الإعداد البيئي
+```bash
+# عدّل .env وأضف:
+ANTHROPIC_API_KEY=sk-ant-your-key-here
+ADMIN_EMAIL=admin@yoursite.com
+ADMIN_PASSWORD=YourSecurePassword
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. قاعدة البيانات
+```bash
+DATABASE_URL="file:./prisma/dev.db" npx prisma migrate dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. تشغيل التطوير
+```bash
+DATABASE_URL="file:./prisma/dev.db" npm run dev
+```
 
-## Learn More
+الموقع: http://localhost:3000
+لوحة التحكم: http://localhost:3000/admin/login
 
-To learn more about Next.js, take a look at the following resources:
+## ☁️ AWS Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# 1. SSL
+./infrastructure/ssl-setup.sh
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 2. Secrets
+./infrastructure/ssm-secrets.sh
 
-## Deploy on Vercel
+# 3. عدّل infrastructure/deploy.sh (DOMAIN, VPC_SUBNET, VPC_SG)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 4. نشر
+./infrastructure/deploy.sh
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📁 الملفات الرئيسية
+
+| الملف | الوصف |
+|-------|-------|
+| `lib/ai-config.ts` | System prompt سالم — خصّصه حسب مكتبك |
+| `components/ai/AIChatWidget.tsx` | واجهة المساعد الذكي |
+| `components/ui/WhatsAppButton.tsx` | رقم واتساب — عدّله |
+| `components/layout/Header.tsx` | الشعار والهاتف |
+| `app/layout.tsx` | Schema markup + metadata |
+| `infrastructure/deploy.sh` | AWS ECS Fargate deployment |
+
+## ✅ ما تم بناؤه
+
+- [x] Arabic RTL — Dark Navy + Gold design
+- [x] AI Chat Widget "سالم" — lead capture تلقائي
+- [x] WhatsApp floating button + bounce animation
+- [x] Hero + Stats (Count-Up) + Services + Testimonials carousel
+- [x] Cookie Consent (نظام حماية البيانات 1445هـ)
+- [x] 6 صفحات خدمات مع محتوى عربي كامل + FAQs
+- [x] Schema Markup JSON-LD (LegalService + LocalBusiness)
+- [x] Admin CMS — posts, news, leads (محادثات سالم), settings
+- [x] Blog + News + dynamic slugs
+- [x] Prisma 7 + SQLite (Post, Page, Lead)
+- [x] Dockerfile + ECS Fargate + CloudFront deployment scripts
+- [x] Build: 30 routes — 0 errors ✓
