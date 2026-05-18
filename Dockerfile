@@ -18,19 +18,20 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
 
-# Standalone Next.js output
+# Standalone Next.js output (includes its own minimal node_modules)
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
 
-# Copy full node_modules so startup.js can require('better-sqlite3')
-COPY --from=builder /app/node_modules ./node_modules
+# Add better-sqlite3 native binary (not included in standalone)
+COPY --from=builder /app/node_modules/better-sqlite3 ./node_modules/better-sqlite3
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 
 # Startup script and prisma migrations
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/prisma ./prisma
 
-# PORT is injected by Railway at runtime — do not hardcode
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["sh", "-c", "node scripts/startup.js && node server.js"]
