@@ -42,7 +42,7 @@ export function rateLimit(cacheKey: string, opts: RateLimitOptions) {
 export const rateLimiters = {
   ai:      rateLimit("ai",      { limit: 20,  windowMs: 60 * 60 * 1000 }),       // 20/hr
   leads:   rateLimit("leads",   { limit: 5,   windowMs: 60 * 60 * 1000 }),       // 5/hr
-  auth:    rateLimit("auth",    { limit: 5,   windowMs: 15 * 60 * 1000 }),       // 5/15min
+  auth:    rateLimit("auth",    { limit: 20,  windowMs: 5 * 60 * 1000 }),        // 20/5min
   posts:   rateLimit("posts",   { limit: 60,  windowMs: 60 * 60 * 1000 }),       // 60/hr (admin)
 };
 
