@@ -18,6 +18,12 @@ export default function AppointmentsPage() {
   const [fetching, setFetching] = useState(true);
   const [tab, setTab] = useState<"available" | "booked" | "expired">("booked");
 
+  useEffect(() => {
+    fetch("/api/auth/check").then(r => {
+      if (!r.ok) window.location.href = "/admin/login";
+    });
+  }, []);
+
   const load = () =>
     fetch("/api/appointments").then(r => r.json()).then(setSlots).finally(() => setFetching(false));
 
@@ -37,6 +43,7 @@ export default function AppointmentsPage() {
   };
 
   const remove = async (id: string) => {
+    if (!confirm("هل أنت متأكد من حذف هذا الموعد؟")) return;
     await fetch(`/api/appointments/${id}`, { method: "DELETE" });
     setSlots(s => s.filter(x => x.id !== id));
   };

@@ -50,7 +50,7 @@ export default async function NewsPage() {
                 {newsItems.map((item) => {
                   const date = item.publishedAt ?? item.createdAt;
                   return (
-                    <Link key={item.slug} href={`/blog/${item.slug}`} style={{ textDecoration: "none" }}>
+                    <Link key={item.slug} href={`/news/${item.slug}`} style={{ textDecoration: "none" }}>
                       <div className="card" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "20px", cursor: "pointer" }}>
                         <div style={{ flex: 1 }}>
                           <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "18px", fontWeight: 700, color: "#1A2744", marginBottom: "8px" }}>
