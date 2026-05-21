@@ -86,7 +86,7 @@ export default function HeroSection() {
           >
             <Award size={13} color="#C9A84C" />
             <span style={{ color: "#C9A84C", fontSize: "12px", fontWeight: 600 }}>
-              مرخص من هيئة المحامين السعوديين
+              مرخص من هيئة المحامين السعوديين | رقم الترخيص: 421848
             </span>
           </div>
 

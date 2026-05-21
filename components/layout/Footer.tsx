@@ -118,7 +118,7 @@ export default async function Footer() {
             © {year} {s.officeName}. جميع الحقوق محفوظة.
           </p>
           <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)" }}>
-            مرخص من هيئة المحامين السعوديين
+            مرخص من هيئة المحامين السعوديين | رقم الترخيص: 421848
           </p>
         </div>
       </div>
