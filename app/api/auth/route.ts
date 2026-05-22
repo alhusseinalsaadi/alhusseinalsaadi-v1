@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
   const emailMatch    = email.toLowerCase() === adminEmail.toLowerCase();
   const passwordMatch = await verifyPassword(password);
 
+  console.log("[auth] email:", email, "adminEmail:", adminEmail, "emailMatch:", emailMatch, "passwordMatch:", passwordMatch);
+
   // Always run both checks (no short-circuit) to prevent timing attacks
   if (!emailMatch || !passwordMatch) {
     // Delay response slightly to slow brute-force even if rate limiter is bypassed
