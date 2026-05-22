@@ -1,27 +1,27 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 
 const navLinks = [
-  { label: "ط§ظ„ط±ط¦ظٹط³ظٹط©", href: "/" },
+  { label: "الرئيسية", href: "/" },
   {
-    label: "ط®ط¯ظ…ط§طھظ†ط§",
+    label: "خدماتنا",
     href: "/services",
     children: [
-      { label: "ط§ظ„ط§ط³طھط´ط§ط±ط§طھ ط§ظ„ظ‚ط§ظ†ظˆظ†ظٹط©", href: "/services/legal-consulting" },
-      { label: "ظ…ط±ط§ط¬ط¹ط© ط§ظ„ط¹ظ‚ظˆط¯", href: "/services/contract-review" },
-      { label: "ط¥ط؛ظ„ط§ظ‚ ط§ظ„طµظپظ‚ط§طھ", href: "/services/deal-closing" },
-      { label: "ط­ظ„ ط§ظ„ظ†ط²ط§ط¹ط§طھ", href: "/services/dispute-resolution" },
-      { label: "ط§ظ„ط§ظ…طھط«ط§ظ„ ظˆط§ظ„طھط±ط§ط®ظٹطµ", href: "/services/compliance" },
-      { label: "ظ‚ط§ظ†ظˆظ† ط§ظ„ط¹ظ‚ط§ط±ط§طھ", href: "/services/real-estate-law" },
+      { label: "الاستشارات القانونية", href: "/services/legal-consulting" },
+      { label: "مراجعة العقود", href: "/services/contract-review" },
+      { label: "إغلاق الصفقات", href: "/services/deal-closing" },
+      { label: "حل النزاعات", href: "/services/dispute-resolution" },
+      { label: "الامتثال والتراخيص", href: "/services/compliance" },
+      { label: "قانون العقارات", href: "/services/real-estate-law" },
     ],
   },
-  { label: "ظ…ظ† ظ†ط­ظ†", href: "/about" },
-  { label: "ط§ظ„ظ…ط¯ظˆظ†ط©", href: "/blog" },
-  { label: "ط§ظ„ط£ط®ط¨ط§ط±", href: "/news" },
-  { label: "طھظˆط§طµظ„ ظ…ط¹ظ†ط§", href: "/contact" },
+  { label: "من نحن", href: "/about" },
+  { label: "المدونة", href: "/blog" },
+  { label: "الأخبار", href: "/news" },
+  { label: "تواصل معنا", href: "/contact" },
 ];
 
 export default function Header() {
@@ -45,7 +45,7 @@ export default function Header() {
   return (
     <>
       <style>{`
-        /* â”€â”€ desktop nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+        /* ── desktop nav ──────────────────────── */
         .hdr-desktop { display: flex; align-items: center; gap: 2px; }
         .hdr-hamburger { display: none; }
 
@@ -154,12 +154,12 @@ export default function Header() {
           <Link href="/" style={{ textDecoration: "none", flexShrink: 0 }}>
             <img
               src="/logo.png"
-              alt="ظ…ظƒطھط¨ ط§ظ„ط³ط¹ط¯ظٹ ظ„ظ„ظ…ط­ط§ظ…ط§ط©"
+              alt="مكتب السعدي للمحاماة"
               style={{ height: "58px", width: "auto", objectFit: "contain", display: "block" }}
             />
           </Link>
 
-          {/* â”€â”€ Desktop nav â”€â”€ */}
+          {/* ── Desktop nav ── */}
           <nav className="hdr-desktop">
             {navLinks.map((link) =>
               link.children ? (
@@ -222,7 +222,7 @@ export default function Header() {
                           fontSize: "13px", fontWeight: 700, borderRadius: "8px",
                         }}
                       >
-                        ط¹ط±ط¶ ط¬ظ…ظٹط¹ ط§ظ„ط®ط¯ظ…ط§طھ â†’
+                        عرض جميع الخدمات →
                       </Link>
                     </div>
                   )}
@@ -254,7 +254,7 @@ export default function Header() {
                 textDecoration: "none", fontSize: "13px", fontWeight: 600, whiteSpace: "nowrap",
               }}
             >
-              <Phone size={14} /> ط§طھطµظ„ ط¨ظ†ط§
+              <Phone size={14} /> اتصل بنا
             </a>
 
             {/* CTA */}
@@ -263,15 +263,15 @@ export default function Header() {
               className="btn-primary"
               style={{ padding: "8px 18px", fontSize: "13px", whiteSpace: "nowrap" }}
             >
-              ط§ط³طھط´ط§ط±ط© ظ…ط¬ط§ظ†ظٹط©
+              استشارة مجانية
             </Link>
           </nav>
 
-          {/* â”€â”€ Hamburger â”€â”€ */}
+          {/* ── Hamburger ── */}
           <button
             className="hdr-hamburger"
             onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "ط¥ط؛ظ„ط§ظ‚ ط§ظ„ظ‚ط§ط¦ظ…ط©" : "ظپطھط­ ط§ظ„ظ‚ط§ط¦ظ…ط©"}
+            aria-label={mobileOpen ? "إغلاق القائمة" : "فتح القائمة"}
           >
             {mobileOpen
               ? <X size={26} strokeWidth={2} />
@@ -280,7 +280,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* â”€â”€ Mobile menu â”€â”€ */}
+      {/* ── Mobile menu ── */}
       {mobileOpen && (
         <div className="hdr-mobile-menu">
           {/* Nav links */}
@@ -320,7 +320,7 @@ export default function Header() {
                           onClick={() => setMobileOpen(false)}
                           style={{ color: "#C9A84C", fontWeight: 700 }}
                         >
-                          ط¬ظ…ظٹط¹ ط§ظ„ط®ط¯ظ…ط§طھ â†گ
+                          جميع الخدمات ←
                         </Link>
                       </div>
                     )}
@@ -353,7 +353,7 @@ export default function Header() {
             {/* primary call number */}
             <a href="tel:0555545533" className="hdr-cta-call">
               <Phone size={18} />
-              <span>ط§طھطµظ„ ط¨ظ†ط§ â€” 0555545533</span>
+              <span>اتصل بنا — 0555545533</span>
             </a>
 
             {/* secondary number */}
@@ -375,7 +375,7 @@ export default function Header() {
               className="hdr-cta-book"
               onClick={() => setMobileOpen(false)}
             >
-              ط§ط­ط¬ط² ط§ط³طھط´ط§ط±ط© ظ…ط¬ط§ظ†ظٹط©
+              احجز استشارة مجانية
             </Link>
           </div>
         </div>
