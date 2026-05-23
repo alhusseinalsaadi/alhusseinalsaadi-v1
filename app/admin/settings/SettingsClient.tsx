@@ -5,14 +5,17 @@ import AdminShell from "@/components/admin/AdminShell";
 import { CheckCircle, Loader2 } from "lucide-react";
 
 const DEFAULTS = {
-  officeName: "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة",
-  phone1: "0555545533",
-  phone2: "0122635336",
-  email: "alhusseinalmojan@gmail.com",
-  address: "جدة - شارع التحلية خلف مبنى الرياض بلازا",
-  whatsapp: "966555545533",
-  twitter: "",
-  linkedin: "",
+  officeName:   "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة",
+  phone1:       "0555545533",
+  phone2:       "0122635336",
+  email:        "alhusseinalmojan@gmail.com",
+  address:      "جدة - شارع التحلية خلف مبنى الرياض بلازا",
+  whatsapp:     "966555545533",
+  twitter:      "",
+  linkedin:     "",
+  workingHours: "الأحد – الخميس: 8 صباحاً – 8 مساءً\nالجمعة – السبت: 10 صباحاً – 4 مساءً",
+  mapUrl:       "https://maps.google.com/?q=جدة+شارع+التحلية+مكتب+السعدي+للمحاماة",
+  ogImage:      "",
 };
 
 type FormData = typeof DEFAULTS;
@@ -53,15 +56,18 @@ export default function SettingsClient() {
     fontFamily: "'IBM Plex Arabic', sans-serif", outline: "none",
   };
 
-  const fields: { label: string; key: keyof FormData; ltr?: boolean }[] = [
-    { label: "اسم المكتب",          key: "officeName" },
-    { label: "رقم الهاتف الأول",    key: "phone1" },
-    { label: "رقم الهاتف الثاني",   key: "phone2" },
-    { label: "البريد الإلكتروني",    key: "email",    ltr: true },
-    { label: "العنوان",              key: "address" },
-    { label: "رقم واتساب (بدون +)", key: "whatsapp", ltr: true },
-    { label: "رابط تويتر/X",        key: "twitter",  ltr: true },
-    { label: "رابط لينكدإن",        key: "linkedin", ltr: true },
+  const fields: { label: string; key: keyof FormData; ltr?: boolean; textarea?: boolean; hint?: string }[] = [
+    { label: "اسم المكتب",                          key: "officeName" },
+    { label: "رقم الهاتف الأول",                   key: "phone1" },
+    { label: "رقم الهاتف الثاني",                  key: "phone2" },
+    { label: "البريد الإلكتروني",                   key: "email",        ltr: true },
+    { label: "العنوان",                              key: "address" },
+    { label: "رقم واتساب (بدون +)",                 key: "whatsapp",     ltr: true },
+    { label: "رابط تويتر/X",                        key: "twitter",      ltr: true },
+    { label: "رابط لينكدإن",                        key: "linkedin",     ltr: true },
+    { label: "أوقات العمل",                         key: "workingHours", textarea: true, hint: "سطر لكل وقت — مثال: الأحد–الخميس: 8ص–8م" },
+    { label: "رابط خريطة Google Maps",              key: "mapUrl",       ltr: true },
+    { label: "رابط صورة مشاركة (og:image)",        key: "ogImage",      ltr: true, hint: "URL كامل للصورة (1200×630 px)" },
   ];
 
   return (
@@ -89,14 +95,23 @@ export default function SettingsClient() {
         ) : (
           <form onSubmit={handleSave}>
             <div style={{ background: "white", borderRadius: "16px", padding: "32px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", display: "flex", flexDirection: "column", gap: "20px" }}>
-              {fields.map(({ label, key, ltr }) => (
+              {fields.map(({ label, key, ltr, textarea, hint }) => (
                 <div key={key}>
-                  <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: "#1A2744", marginBottom: "6px" }}>{label}</label>
-                  <input
-                    type="text" value={form[key]}
-                    onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                    style={{ ...inputStyle, direction: ltr ? "ltr" : "rtl" }}
-                  />
+                  <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: "#1A2744", marginBottom: "4px" }}>{label}</label>
+                  {hint && <p style={{ fontSize: "12px", color: "#9CA3AF", marginBottom: "6px" }}>{hint}</p>}
+                  {textarea ? (
+                    <textarea
+                      rows={3} value={form[key]}
+                      onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                      style={{ ...inputStyle, resize: "vertical", direction: ltr ? "ltr" : "rtl" }}
+                    />
+                  ) : (
+                    <input
+                      type="text" value={form[key]}
+                      onChange={(e) => setForm({ ...form, [key]: e.target.value })}
+                      style={{ ...inputStyle, direction: ltr ? "ltr" : "rtl" }}
+                    />
+                  )}
                 </div>
               ))}
               <div style={{ paddingTop: "8px", borderTop: "1px solid #F3F4F6" }}>

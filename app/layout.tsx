@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import JsonLd from "@/components/layout/JsonLd";
 
 export const metadata: Metadata = {
   title: {
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
     siteName: "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة",
   },
   alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL ?? "https://alhusseinalsaadi.sa",
     languages: { "ar-SA": "/" },
   },
   robots: {
@@ -46,32 +48,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700;800;900&family=IBM+Plex+Arabic:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": ["LegalService", "LocalBusiness"],
-              name: "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة",
-              description: "مكتب محاماة متخصص في القانون السعودي في جدة",
-              telephone: ["+966555545533", "+96612635336"],
-              email: "alhusseinalmojan@gmail.com",
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "شارع التحلية خلف مبنى الرياض بلازا",
-                addressLocality: "جدة",
-                addressCountry: "SA",
-              },
-              areaServed: "SA",
-              priceRange: "$$",
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "4.9",
-                reviewCount: "300",
-              },
-            }),
-          }}
-        />
+        <JsonLd />
       </head>
       <body className="min-h-full flex flex-col" style={{ fontFamily: "'IBM Plex Arabic', sans-serif" }}>
         {children}

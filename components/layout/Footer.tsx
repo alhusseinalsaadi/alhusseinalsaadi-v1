@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { getSiteSettings } from "@/lib/site-settings";
 
 const services = [
@@ -97,10 +97,17 @@ export default async function Footer() {
                 </a>
               )}
               {s.address && (
-                <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "rgba(255,255,255,0.65)", fontSize: "14px" }}>
-                  <MapPin size={16} style={{ color: "#C9A84C", flexShrink: 0, marginTop: "2px" }} />
-                  <span>{s.address}</span>
-                </div>
+                s.mapUrl ? (
+                  <a href={s.mapUrl} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "rgba(255,255,255,0.65)", textDecoration: "none", fontSize: "14px" }}>
+                    <MapPin size={16} style={{ color: "#C9A84C", flexShrink: 0, marginTop: "2px" }} />
+                    <span>{s.address}</span>
+                  </a>
+                ) : (
+                  <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "rgba(255,255,255,0.65)", fontSize: "14px" }}>
+                    <MapPin size={16} style={{ color: "#C9A84C", flexShrink: 0, marginTop: "2px" }} />
+                    <span>{s.address}</span>
+                  </div>
+                )
               )}
             </div>
             <div style={{ marginTop: "24px" }}>
@@ -109,6 +116,28 @@ export default async function Footer() {
               </Link>
             </div>
           </div>
+
+          {/* Working Hours */}
+          {s.workingHours && (
+            <div>
+              <h3 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "18px", fontWeight: 700, color: "#C9A84C", marginBottom: "20px" }}>أوقات العمل</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "rgba(255,255,255,0.65)", fontSize: "14px" }}>
+                  <Clock size={16} style={{ color: "#C9A84C", flexShrink: 0, marginTop: "2px" }} />
+                  <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                    {s.workingHours.split("\n").map((line, i) => (
+                      <span key={i}>{line}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: "20px", padding: "12px 16px", background: "rgba(201,168,76,0.08)", border: "1px solid rgba(201,168,76,0.2)", borderRadius: "10px" }}>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", margin: 0 }}>
+                  للطوارئ القانونية — نحن متاحون على مدار الساعة
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
