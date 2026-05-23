@@ -33,7 +33,7 @@ export default async function BlogPage({
     prisma.post.findMany({
       where: { category: "blog", published: true },
       orderBy: { publishedAt: "desc" },
-      select: { id: true, title: true, slug: true, excerpt: true, publishedAt: true, createdAt: true },
+      select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, publishedAt: true, createdAt: true },
       skip,
       take: PER_PAGE,
     }),
@@ -77,7 +77,11 @@ export default async function BlogPage({
                     const date = post.publishedAt ?? post.createdAt;
                     return (
                       <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none" }}>
-                        <article className="card" style={{ height: "100%", display: "flex", flexDirection: "column", gap: "14px", cursor: "pointer" }}>
+                        <article className="card" style={{ height: "100%", display: "flex", flexDirection: "column", gap: "14px", cursor: "pointer", padding: 0, overflow: "hidden" }}>
+                          {post.coverImage && (
+                            <img src={post.coverImage} alt={post.title} style={{ width: "100%", height: "180px", objectFit: "cover" }} />
+                          )}
+                          <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "14px", flex: 1 }}>
                           <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "19px", fontWeight: 700, color: "#1A2744", lineHeight: "1.5", flex: 1 }}>
                             {post.title}
                           </h2>
@@ -94,6 +98,7 @@ export default async function BlogPage({
                             <span style={{ color: "#C9A84C", fontSize: "13px", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
                               اقرأ المزيد <ArrowLeft size={13} style={{ transform: "scaleX(-1)" }} />
                             </span>
+                          </div>
                           </div>
                         </article>
                       </Link>

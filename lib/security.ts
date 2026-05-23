@@ -137,12 +137,13 @@ export const AIRequestSchema = z.object({
 });
 
 export const PostSchema = z.object({
-  title:     z.string().min(3).max(300),
-  slug:      z.string().max(300).optional(),
-  content:   z.string().min(10).max(50000),
-  excerpt:   z.string().max(500).optional(),
-  category:  z.enum(["blog", "news"]).default("blog"),
-  published: z.boolean().default(false),
+  title:      z.string().min(3).max(300),
+  slug:       z.string().max(300).optional(),
+  content:    z.string().min(10).max(50000),
+  excerpt:    z.string().max(500).optional(),
+  category:   z.enum(["blog", "news"]).default("blog"),
+  coverImage: z.string().url().max(2000).optional().or(z.literal("")),
+  published:  z.boolean().default(false),
 });
 
 export const AuthSchema = z.object({

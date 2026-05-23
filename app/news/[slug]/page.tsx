@@ -51,6 +51,18 @@ export default async function NewsPostPage({ params }: { params: Promise<{ slug:
           </div>
         </section>
 
+        {post.coverImage && (
+          <div style={{ background: "white", padding: "0 24px" }}>
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                style={{ width: "100%", maxHeight: "420px", objectFit: "cover", borderRadius: "16px", marginTop: "32px" }}
+              />
+            </div>
+          </div>
+        )}
+
         <section style={{ background: "white", padding: "64px 24px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <div style={{ fontSize: "17px", lineHeight: "1.9", color: "#1C1C1E" }}>

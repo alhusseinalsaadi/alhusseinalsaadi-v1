@@ -56,6 +56,7 @@ export async function PUT(
         content:     sanitizeText(d.content, 50000),
         excerpt:     d.excerpt ? sanitizeText(d.excerpt, 500) : undefined,
         category:    d.category,
+        coverImage:  d.coverImage !== undefined ? (d.coverImage || null) : undefined,
         published:   d.published,
         publishedAt: d.published ? new Date() : null,
       },

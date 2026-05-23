@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { Save, ArrowRight } from "lucide-react";
+import { Save, ArrowRight, Image as ImageIcon } from "lucide-react";
 import AdminShell from "@/components/admin/AdminShell";
 
 function EditPostForm() {
@@ -11,7 +11,7 @@ function EditPostForm() {
   const params = useParams();
   const id = params.id as string;
 
-  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", published: false, category: "blog" });
+  const [form, setForm] = useState({ title: "", slug: "", content: "", excerpt: "", coverImage: "", published: false, category: "blog" });
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState("");
@@ -26,6 +26,7 @@ function EditPostForm() {
           slug: data.slug || "",
           content: data.content || "",
           excerpt: data.excerpt || "",
+          coverImage: data.coverImage || "",
           published: data.published || false,
           category: data.category || "blog",
         });
@@ -133,6 +134,24 @@ function EditPostForm() {
                   style={inputStyle}
                   placeholder="2-3 جمل تلخص المحتوى..."
                 />
+              </div>
+
+              {/* Cover Image */}
+              <div>
+                <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: "#1A2744", marginBottom: "6px" }}>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}><ImageIcon size={14} /> رابط الصورة الرئيسية (اختياري)</span>
+                </label>
+                <input
+                  type="url" value={form.coverImage}
+                  onChange={(e) => setForm({ ...form, coverImage: e.target.value })}
+                  style={{ ...inputStyle, direction: "ltr" }}
+                  placeholder="https://example.com/image.jpg"
+                />
+                {form.coverImage && (
+                  <div style={{ marginTop: "10px", borderRadius: "10px", overflow: "hidden", maxHeight: "200px" }}>
+                    <img src={form.coverImage} alt="preview" style={{ width: "100%", height: "200px", objectFit: "cover" }} onError={(e) => (e.currentTarget.style.display = "none")} />
+                  </div>
+                )}
               </div>
 
               {/* Content */}

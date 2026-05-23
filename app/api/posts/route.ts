@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
       content:     sanitizeText(d.content, 50000),
       excerpt:     sanitizeText(d.excerpt ?? d.content.slice(0, 200), 500),
       category:    d.category,
+      coverImage:  d.coverImage || null,
       published:   d.published,
       publishedAt: d.published ? new Date() : null,
     },

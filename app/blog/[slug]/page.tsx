@@ -52,6 +52,19 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </section>
 
+        {/* Cover image */}
+        {post.coverImage && (
+          <div style={{ background: "white", padding: "0 24px" }}>
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <img
+                src={post.coverImage}
+                alt={post.title}
+                style={{ width: "100%", maxHeight: "420px", objectFit: "cover", borderRadius: "16px", marginTop: "32px" }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Content */}
         <section style={{ background: "white", padding: "64px 24px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
