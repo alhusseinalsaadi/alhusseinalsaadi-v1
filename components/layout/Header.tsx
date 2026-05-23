@@ -24,7 +24,12 @@ const navLinks = [
   { label: "تواصل معنا", href: "/contact" },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  phone1?: string;
+  phone2?: string;
+}
+
+export default function Header({ phone1 = "0555545533", phone2 = "0122635336" }: HeaderProps) {
   const [scrolled, setScrolled]           = useState(false);
   const [mobileOpen, setMobileOpen]       = useState(false);
   const [servicesOpen, setServicesOpen]   = useState(false);
@@ -246,7 +251,7 @@ export default function Header() {
 
             {/* phone */}
             <a
-              href="tel:0555545533"
+              href={`tel:${phone1}`}
               style={{
                 marginRight: "8px", display: "flex", alignItems: "center", gap: "6px",
                 background: "rgba(201,168,76,0.1)", border: "1px solid rgba(201,168,76,0.3)",
@@ -351,14 +356,14 @@ export default function Header() {
             }}
           >
             {/* primary call number */}
-            <a href="tel:0555545533" className="hdr-cta-call">
+            <a href={`tel:${phone1}`} className="hdr-cta-call">
               <Phone size={18} />
-              <span>اتصل بنا — 0555545533</span>
+              <span>اتصل بنا — {phone1}</span>
             </a>
 
             {/* secondary number */}
             <a
-              href="tel:0122635336"
+              href={`tel:${phone2}`}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
                 padding: "11px", borderRadius: "10px", fontSize: "14px", fontWeight: 600,
@@ -366,7 +371,7 @@ export default function Header() {
                 border: "1px solid rgba(201,168,76,0.2)", fontFamily: "'IBM Plex Arabic', sans-serif",
               }}
             >
-              <Phone size={15} /> 0122635336
+              <Phone size={15} /> {phone2}
             </a>
 
             {/* book CTA */}

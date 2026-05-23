@@ -1,8 +1,9 @@
-import Link from "next/link";
-import Header from "@/components/layout/Header";
+﻿import Link from "next/link";
+import Header from "@/components/layout/HeaderServer";
 import Footer from "@/components/layout/Footer";
 import AIChatWidget from "@/components/ai/AIChatWidget";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import { getSiteSettings } from "@/lib/site-settings";
 import CookieConsent from "@/components/ui/CookieConsent";
 import { ChevronLeft, CheckCircle2, ArrowLeft, MessageCircle } from "lucide-react";
 import FAQItem from "@/components/services/FAQItem";
@@ -29,7 +30,7 @@ interface ServicePageProps {
   faqs: FAQ[];
 }
 
-export default function ServicePageLayout({
+export default async function ServicePageLayout({
   title,
   subtitle,
   heroDesc,
@@ -39,6 +40,8 @@ export default function ServicePageLayout({
   laws,
   faqs,
 }: ServicePageProps) {
+  const s = await getSiteSettings();
+  const waLink = `https://wa.me/${s.whatsapp}?text=${encodeURIComponent("مرحباً، أريد استشارة قانونية")}`;
   return (
     <>
       <Header />
@@ -95,7 +98,7 @@ export default function ServicePageLayout({
                 <MessageCircle size={18} />
                 احجز استشارة مجانية
               </Link>
-              <a href="https://wa.me/966555545533?text=مرحباً، أريد استشارة قانونية" target="_blank" rel="noopener noreferrer" className="btn-outline">
+              <a href={waLink} target="_blank" rel="noopener noreferrer" className="btn-outline">
                 تواصل عبر واتساب
               </a>
             </div>
@@ -287,7 +290,7 @@ export default function ServicePageLayout({
       </main>
       <Footer />
       <AIChatWidget />
-      <WhatsAppButton />
+      <WhatsAppButton phone={s.whatsapp} />
       <CookieConsent />
     </>
   );

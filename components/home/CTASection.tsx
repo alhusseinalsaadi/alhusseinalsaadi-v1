@@ -1,7 +1,11 @@
 import Link from "next/link";
 import { Phone, MessageCircle } from "lucide-react";
+import { getSiteSettings } from "@/lib/site-settings";
 
-export default function CTASection() {
+export default async function CTASection() {
+  const s = await getSiteSettings();
+  const waLink = `https://wa.me/${s.whatsapp}?text=${encodeURIComponent("مرحباً، أريد استشارة قانونية")}`;
+
   return (
     <section
       style={{
@@ -53,7 +57,7 @@ export default function CTASection() {
             احجز استشارة مجانية
           </Link>
           <a
-            href="https://wa.me/966555545533?text=مرحباً، أريد استشارة قانونية"
+            href={waLink}
             target="_blank"
             rel="noopener noreferrer"
             style={{

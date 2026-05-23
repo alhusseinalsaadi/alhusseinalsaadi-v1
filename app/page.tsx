@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/HeaderServer";
 import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import StatsSection from "@/components/home/StatsSection";
@@ -20,19 +20,20 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  // Read WhatsApp number server-side so it can be updated from admin settings
   let whatsappNumber = "966555545533";
+  let phone1 = "0555545533";
   try {
     const { getSiteSettings } = await import("@/lib/site-settings");
     const settings = await getSiteSettings();
     if (settings.whatsapp) whatsappNumber = settings.whatsapp;
+    if (settings.phone1) phone1 = settings.phone1;
   } catch { /* use default */ }
 
   return (
     <>
       <Header />
       <main>
-        <HeroSection />
+        <HeroSection phone1={phone1} />
         <StatsSection />
         <ServicesSection />
         <WhyUsSection />

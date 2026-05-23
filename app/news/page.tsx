@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/HeaderServer";
 import Footer from "@/components/layout/Footer";
 import AIChatWidget from "@/components/ai/AIChatWidget";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";

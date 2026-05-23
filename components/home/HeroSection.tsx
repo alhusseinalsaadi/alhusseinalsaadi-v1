@@ -10,7 +10,7 @@ const headlines = [
   "شريكك القانوني الموثوق في جدة",
 ];
 
-export default function HeroSection() {
+export default function HeroSection({ phone1 = "0555545533" }: { phone1?: string }) {
   const [headlineIndex, setHeadlineIndex] = useState(0);
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function HeroSection() {
               <ArrowLeft size={17} style={{ transform: "scaleX(-1)" }} />
             </Link>
             <a
-              href="tel:0555545533"
+              href={`tel:${phone1}`}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
