@@ -1,6 +1,6 @@
 'use client';
 
-const PIXEL_ID = '1043762088307375';
+const PIXEL_ID = '1571495927725589';
 
 export default function MetaPixel() {
   return (

@@ -1,7 +1,7 @@
 // Meta Pixel tracking utilities
 // Use these functions to track events throughout your application
 
-const PIXEL_ID = '1043762088307375';
+const PIXEL_ID = '1571495927725589';
 
 export type StandardEventName =
   | 'ViewContent'

@@ -2,7 +2,7 @@
 
 ## ✅ Installation Complete
 
-Your Meta Pixel has been successfully installed on your website with ID `1043762088307375`.
+Your Meta Pixel has been successfully installed on your website with ID `1571495927725589`.
 
 ## What Was Installed
 
@@ -71,7 +71,7 @@ Your Meta Pixel has been successfully installed on your website with ID `1043762
 1. Open your website in Chrome
 2. Click the Meta Pixel Helper extension icon
 3. You should see:
-   - ✓ Your Pixel ID: `1043762088307375`
+   - ✓ Your Pixel ID: `1571495927725589`
    - ✓ PageView events on page load
    - ✓ Lead events when forms are submitted
 
@@ -94,7 +94,7 @@ Your Meta Pixel has been successfully installed on your website with ID `1043762
 
 ### Issue: Events Not Showing in Events Manager
 1. Confirm you're looking at the correct Data Source
-2. Check that pixel ID matches: `1043762088307375`
+2. Check that pixel ID matches: `1571495927725589`
 3. Use Meta Pixel Helper to verify events are firing
 4. Check network tab in browser DevTools (F12 → Network)
 
@@ -155,7 +155,7 @@ Once pixel is active for 24+ hours:
 
 ## Quick Reference
 
-**Pixel ID:** `1043762088307375`
+**Pixel ID:** `1571495927725589`
 
 **Key Files:**
 - Tracking Utilities: `lib/meta-pixel.ts`

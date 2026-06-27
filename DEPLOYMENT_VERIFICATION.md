@@ -7,9 +7,9 @@
 
 ### 1. Base Code Installation ✓
 - **Location:** Served on every page via `app/layout.tsx`
-- **Pixel ID:** 1043762088307375
+- **Pixel ID:** 1571495927725589
 - **Script:** ✓ Loaded correctly
-- **Initialization:** ✓ fbq('init', '1043762088307375')
+- **Initialization:** ✓ fbq('init', '1571495927725589')
 - **PageView Tracking:** ✓ fbq('track', 'PageView')
 - **NoScript Fallback:** ✓ Present
 
@@ -39,7 +39,7 @@
 GET / HTTP/1.1 → 200 OK
 ✓ Meta Pixel base code present
 ✓ PageView tracking initialized
-✓ Pixel ID: 1043762088307375
+✓ Pixel ID: 1571495927725589
 ✓ Response time: 4.7s
 ```
 
@@ -68,7 +68,7 @@ GET /contact HTTP/1.1 → 200 OK
 1. Install [Meta Pixel Helper Chrome Extension](https://chrome.google.com/webstore/)
 2. Visit http://localhost:3000
 3. Extension should show:
-   - Pixel ID: 1043762088307375
+   - Pixel ID: 1571495927725589
    - Event: PageView fired
    - Status: Active
 
@@ -114,7 +114,7 @@ npm start
 
 If pixel shows "No Activity" in Events Manager after 30 minutes:
 
-- [ ] Verify pixel ID: 1043762088307375
+- [ ] Verify pixel ID: 1571495927725589
 - [ ] Check browser console for JavaScript errors
 - [ ] Ensure MetaPixel component is in app/layout.tsx
 - [ ] Verify page source contains fbq script

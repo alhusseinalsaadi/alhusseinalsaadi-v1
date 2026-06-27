@@ -3,7 +3,7 @@
 ## Overview
 Meta Pixel (formerly Facebook Pixel) has been installed on your website to track user actions for advertising and analytics purposes.
 
-**Pixel ID:** `1043762088307375`
+**Pixel ID:** `1571495927725589`
 
 ## What's Been Installed
 
