@@ -11,7 +11,7 @@ export const SETTING_DEFAULTS: Record<string, string> = {
   linkedin:      "",
   siteUrl:       process.env.NEXT_PUBLIC_SITE_URL ?? "https://alhusseinalsaadi.sa",
   ogImage:       "",
-  workingHours:  "الأحد – الخميس: 9:00 ص – 5:00 م\nالجمعة – السبت: مغلق",
+  workingHours:  "الأحد – الخميس: 9 صباحاً – 5 مساءً\nالجمعة – السبت: مغلق",
   mapUrl:        "https://maps.google.com/?q=جدة+شارع+التحلية+مكتب+السعدي+للمحاماة",
 };
 

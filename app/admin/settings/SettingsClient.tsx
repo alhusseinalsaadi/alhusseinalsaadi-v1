@@ -13,7 +13,7 @@ const DEFAULTS = {
   whatsapp:     "966555545533",
   twitter:      "",
   linkedin:     "",
-  workingHours: "الأحد – الخميس: 9:00 ص – 5:00 م\nالجمعة – السبت: مغلق",
+  workingHours: "الأحد – الخميس: 9 صباحاً – 5 مساءً\nالجمعة – السبت: مغلق",
   mapUrl:       "https://maps.google.com/?q=جدة+شارع+التحلية+مكتب+السعدي+للمحاماة",
   ogImage:      "",
 };
