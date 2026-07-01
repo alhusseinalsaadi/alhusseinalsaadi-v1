@@ -2,8 +2,23 @@ import type { Metadata } from "next";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
 export const metadata: Metadata = {
-  title: "إغلاق الصفقات التجارية",
-  description: "مرافقة قانونية متكاملة لإغلاق صفقاتك التجارية من التفاوض حتى التوقيع النهائي.",
+  title: "إغلاق الصفقات التجارية والاستحواذات",
+  description: "مرافقة قانونية متكاملة لإغلاق صفقاتك من التفاوض حتى الإغلاق. M&A، تمويل، امتثال تنظيمي.",
+  keywords: [
+    "إغلاق الصفقات",
+    "صفقات استحواذ",
+    "M&A",
+    "تمويل الصفقات",
+    "due diligence",
+    "مستندات إغلاق",
+    "صفقات تجارية",
+    "محامي استحواذ",
+  ],
+  openGraph: {
+    title: "إغلاق الصفقات والاستحواذات",
+    description: "مرافقة قانونية احترافية لإنجاح صفقتك التجارية",
+    type: "website",
+  },
 };
 
 export default function DealClosingPage() {

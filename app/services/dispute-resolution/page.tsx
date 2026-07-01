@@ -2,8 +2,23 @@ import type { Metadata } from "next";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
 export const metadata: Metadata = {
-  title: "حل النزاعات القانونية",
-  description: "تمثيل قانوني احترافي أمام المحاكم السعودية وهيئات التحكيم لحل نزاعاتك.",
+  title: "حل النزاعات والتحكيم — محامي السعودية",
+  description: "تمثيل قانوني احترافي أمام المحاكم والتحكيم. قضايا تجارية، عمل، عقارات. خبرة في القانون السعودي والدولي.",
+  keywords: [
+    "حل النزاعات",
+    "تحكيم",
+    "محاكم السعودية",
+    "قضايا تجارية",
+    "نزاعات عمل",
+    "تمثيل قانوني",
+    "محامي المحاكم جدة",
+    "تحكيم تجاري",
+  ],
+  openGraph: {
+    title: "حل النزاعات القانونية والتحكيم",
+    description: "تمثيل قانوني قوي لنزاعاتك أمام المحاكم والهيئات المتخصصة",
+    type: "website",
+  },
 };
 
 export default function DisputeResolutionPage() {

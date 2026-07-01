@@ -42,8 +42,25 @@ export default async function ServicePageLayout({
 }: ServicePageProps) {
   const s = await getSiteSettings();
   const waLink = `https://wa.me/${s.whatsapp}?text=${encodeURIComponent("مرحباً، أريد استشارة قانونية")}`;
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Header />
       <main style={{ paddingTop: "72px" }}>
         {/* Hero */}

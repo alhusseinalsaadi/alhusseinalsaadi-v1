@@ -2,8 +2,23 @@ import type { Metadata } from "next";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
 export const metadata: Metadata = {
-  title: "قانون العقارات",
-  description: "استشارات قانونية متخصصة في العقارات السعودية — بيع، شراء، إيجار، نزاعات عقارية.",
+  title: "قانون العقارات السعودية — بيع، شراء، إيجار",
+  description: "استشارات قانونية متخصصة في العقارات — معاملات بيع، شراء، إيجار، نزاعات عقارية. وفق أنظمة البلدية والتخطيط السعودية.",
+  keywords: [
+    "قانون العقارات",
+    "العقارات السعودية",
+    "بيع عقارات",
+    "شراء عقارات",
+    "عقود إيجار",
+    "نزاعات عقارية",
+    "وكالة عقارية",
+    "محامي عقارات جدة",
+  ],
+  openGraph: {
+    title: "استشارات قانونية متخصصة في العقارات",
+    description: "حماية مصالحك في معاملاتك العقارية من البداية للنهاية",
+    type: "website",
+  },
 };
 
 export default function RealEstateLawPage() {

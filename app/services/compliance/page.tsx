@@ -2,8 +2,23 @@ import type { Metadata } from "next";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
 export const metadata: Metadata = {
-  title: "الامتثال والتراخيص التجارية",
-  description: "خدمات الامتثال التنظيمي والتراخيص التجارية في المملكة العربية السعودية.",
+  title: "الامتثال التنظيمي والتراخيص التجارية",
+  description: "خدمات الامتثال التنظيمي والتراخيص التجارية. معايير GDPR، SAMA، SASO، الزكاة والضريبة.",
+  keywords: [
+    "الامتثال التنظيمي",
+    "التراخيص التجارية",
+    "GDPR السعودية",
+    "SAMA البنك المركزي",
+    "SASO",
+    "امتثال ضريبي",
+    "امتثال بيئي",
+    "معايير تجارية",
+  ],
+  openGraph: {
+    title: "خدمات الامتثال والتراخيص التجارية",
+    description: "تأكد من امتثال عملك لجميع الأنظمة والتشريعات السعودية",
+    type: "website",
+  },
 };
 
 export default function CompliancePage() {

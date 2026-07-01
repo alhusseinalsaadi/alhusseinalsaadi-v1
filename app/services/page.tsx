@@ -8,8 +8,21 @@ import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import CookieConsent from "@/components/ui/CookieConsent";
 
 export const metadata: Metadata = {
-  title: "خدماتنا القانونية",
-  description: "خدمات قانونية متكاملة في المملكة العربية السعودية — استشارات، عقود، نزاعات، تراخيص، عقارات.",
+  title: "خدمات قانونية متكاملة — محامي السعودية",
+  description: "خدمات قانونية متخصصة في السعودية — استشارات قانونية، مراجعة عقود، حل نزاعات، تراخيص تجارية، عقارات. فريق محامين معتمدين بخبرة 15+ سنة.",
+  keywords: [
+    "خدمات قانونية السعودية",
+    "محامي",
+    "محامي جدة",
+    "استشارات قانونية",
+    "خدمات قانونية متكاملة",
+    "محامي متخصصين",
+  ],
+  openGraph: {
+    title: "خدماتنا القانونية المتخصصة",
+    description: "مجموعة شاملة من الخدمات القانونية لحماية مصالحك",
+    type: "website",
+  },
 };
 
 export default function ServicesPage() {

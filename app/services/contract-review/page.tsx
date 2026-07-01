@@ -2,8 +2,23 @@ import type { Metadata } from "next";
 import ServicePageLayout from "@/components/services/ServicePageLayout";
 
 export const metadata: Metadata = {
-  title: "مراجعة العقود",
-  description: "مراجعة قانونية دقيقة لعقودك التجارية والمدنية وفق القانون السعودي.",
+  title: "مراجعة العقود والعقود التجارية — محامي السعودية",
+  description: "مراجعة قانونية دقيقة لعقودك التجارية والإيجار والمقاولات والعمل. حماية مصالحك وفق النظام السعودي.",
+  keywords: [
+    "مراجعة العقود",
+    "مراجعة عقود تجارية",
+    "عقود إيجار",
+    "عقود المقاولات",
+    "عقود العمل",
+    "تحليل العقود السعودية",
+    "محامي عقود جدة",
+    "مراجعة عقود استثمار",
+  ],
+  openGraph: {
+    title: "مراجعة العقود والعقود التجارية المتخصصة",
+    description: "اطمئن على عقودك قبل التوقيع — مراجعة قانونية من محامي خبير",
+    type: "website",
+  },
 };
 
 export default function ContractReviewPage() {
