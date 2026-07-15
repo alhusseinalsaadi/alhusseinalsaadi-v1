@@ -118,6 +118,7 @@ export const LeadSchema = z.object({
   message:      z.string().max(2000).optional(),
   conversation: z.unknown().optional(),
   consent:      z.boolean().refine((v) => v === true, { message: "يجب الموافقة على سياسة الخصوصية" }),
+  eventId:      z.string().max(64).optional(),
 });
 
 export const AIMessageSchema = z.object({

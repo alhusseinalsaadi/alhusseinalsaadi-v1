@@ -20,6 +20,7 @@
     "@tiptap/starter-kit": "^3.23.4",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.10.0",
+    "facebook-nodejs-business-sdk": "^24.0.1",
     "framer-motion": "^12.38.0",
     "groq-sdk": "^1.2.0",
     "lru-cache": "^11.3.6",

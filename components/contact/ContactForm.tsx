@@ -51,6 +51,11 @@ export default function ContactForm() {
     const validationError = validate();
     if (validationError) { setError(validationError); return; }
     setLoading(true);
+    // Shared event id: sent to Meta from both the browser pixel and the
+    // server Conversions API so the Lead is deduplicated, not double-counted.
+    const eventId = typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `lead-${Date.now()}-${Math.random().toString(36).slice(2)}`;
     try {
       const res = await fetch("/api/leads", {
         method: "POST",
@@ -63,6 +68,7 @@ export default function ContactForm() {
           message:      sanitize(form.message, 2000),
           consent:      true,
           conversation: [],
+          eventId,
         }),
       });
       if (!res.ok) {
@@ -71,7 +77,7 @@ export default function ContactForm() {
         return;
       }
       setSubmitted(true);
-      trackContactForm({ content_name: form.service || 'Contact Form Submission' });
+      trackContactForm({ content_name: form.service || 'Contact Form Submission' }, eventId);
     } catch {
       setError("تعذّر الاتصال بالخادم، يرجى المحاولة مرة أخرى.");
     } finally {

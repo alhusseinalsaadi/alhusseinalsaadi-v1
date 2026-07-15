@@ -5,6 +5,7 @@ import {
   sanitizeText, LeadSchema, LeadStatusSchema,
 } from "@/lib/security";
 import { notifyNewLead } from "@/lib/notify";
+import { sendLeadEvent } from "@/lib/meta-capi";
 
 function requireAdmin(req: NextRequest) {
   const session = req.cookies.get("admin-session")?.value;
@@ -61,7 +62,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: msg }, { status: 422 });
   }
 
-  const { name, phone, email, service, message, conversation } = parsed.data;
+  const { name, phone, email, service, message, conversation, eventId } = parsed.data;
 
   const lead = await prisma.lead.create({
     data: {
@@ -75,6 +76,19 @@ export async function POST(req: NextRequest) {
   });
 
   notifyNewLead({ name: lead.name, phone: lead.phone, service: lead.service }).catch(() => null);
+
+  // Server-side Meta Conversions API — deduplicated with the browser pixel via eventId
+  sendLeadEvent({
+    eventId,
+    name:      lead.name,
+    phone:     lead.phone,
+    email:     lead.email,
+    clientIp:  ip,
+    userAgent: req.headers.get("user-agent") ?? undefined,
+    sourceUrl: req.headers.get("referer") ?? undefined,
+    fbp:       req.cookies.get("_fbp")?.value,
+    fbc:       req.cookies.get("_fbc")?.value,
+  }).catch(() => null);
 
   return NextResponse.json({ success: true, id: lead.id }, { status: 201 });
 }
