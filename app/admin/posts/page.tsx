@@ -55,7 +55,7 @@ export default async function PostsAdminPage({ searchParams }: { searchParams: P
                 أضف أول منشور
               </Link>
             </div>
-          ) : posts.map((post) => (
+          ) : posts.map((post: { id: string; title: string; slug: string; published: boolean; createdAt: Date; [key: string]: any }) => (
             <div key={post.id} style={{ background: "white", borderRadius: "12px", padding: "20px 24px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", border: "1px solid #E5E5E0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
               <div style={{ flex: 1, minWidth: "200px" }}>
                 <div style={{ display: "flex", gap: "8px", alignItems: "center", marginBottom: "6px" }}>
