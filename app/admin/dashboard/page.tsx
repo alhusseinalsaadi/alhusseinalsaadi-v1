@@ -22,7 +22,7 @@ export default async function DashboardPage() {
   const serialized = recentLeads.map((l: { createdAt: Date; [key: string]: any }) => ({
     ...l,
     createdAt: l.createdAt.toISOString(),
-  }));
+  })) as any;
 
   return (
     <AdminShell>

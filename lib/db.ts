@@ -15,7 +15,7 @@ function makePrisma(): PrismaClient {
   const stripped = raw.startsWith("file:") ? raw.slice(5) : raw;
   const abs = path.isAbsolute(stripped)
     ? stripped
-    : path.resolve(process.cwd(), stripped);
+    : path.resolve(/*turbopackIgnore: true*/ process.cwd(), stripped);
   const url = `file:${abs}`;
 
   const adapter = new PrismaBetterSqlite3({ url });

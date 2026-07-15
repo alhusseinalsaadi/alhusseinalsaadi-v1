@@ -39,6 +39,9 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   serverExternalPackages: ["better-sqlite3", "@prisma/adapter-better-sqlite3", "bcryptjs"],
+  turbopack: {
+    root: "./",
+  },
 
   async headers() {
     return [

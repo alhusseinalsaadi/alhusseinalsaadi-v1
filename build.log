@@ -1,0 +1,50 @@
+
+> legal-site@0.1.0 build
+> next build
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\DTG\package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * C:\Users\DTG\legal-site\package-lock.json
+
+▲ Next.js 16.2.6 (Turbopack)
+- Environments: .env
+
+  Creating an optimized production build ...
+Turbopack build encountered 1 warnings:
+./legal-site/next.config.ts
+Encountered unexpected file in NFT list
+A file was traced that indicates that the whole project was traced unintentionally. Somewhere in the import trace below, there are:
+- filesystem operations (like path.join, path.resolve or fs.readFile), or
+- very dynamic requires (like require('./' + foo)).
+To resolve this, you can
+- remove them if possible, or
+- only use them in development, or
+- make sure they are statically scoped to some subfolder: path.join(process.cwd(), 'data', bar), or
+- add ignore comments: path.join(/*turbopackIgnore: true*/ process.cwd(), bar)
+
+Import trace:
+  App Route:
+    ./legal-site/next.config.ts
+    ./legal-site/lib/db.ts
+    ./legal-site/app/api/testimonials/[id]/route.ts
+
+
+✓ Compiled successfully in 10.6s
+  Running TypeScript ...
+Failed to type check.
+
+./app/admin/dashboard/page.tsx:29:24
+Type error: Type '{ createdAt: string; }[]' is not assignable to type 'RecentLead[]'.
+  Type '{ createdAt: string; }' is missing the following properties from type 'RecentLead': id, name, phone, service, status
+
+  [90m27 |[0m   [36mreturn[0m (
+  [90m28 |[0m     <[33mAdminShell[0m>
+[31m[1m>[0m [90m29 |[0m       <[33mDashboardClient[0m recentLeads={serialized} />
+  [90m   |[0m                        [31m[1m^[0m
+  [90m30 |[0m     </[33mAdminShell[0m>
+  [90m31 |[0m   );
+  [90m32 |[0m }
+Next.js build worker exited with code: 1 and signal: null
