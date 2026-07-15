@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     select: { id: true, name: true, phone: true, service: true, status: true, createdAt: true },
   });
 
-  const serialized = recentLeads.map((l) => ({
+  const serialized = recentLeads.map((l: { createdAt: Date; [key: string]: any }) => ({
     ...l,
     createdAt: l.createdAt.toISOString(),
   }));
