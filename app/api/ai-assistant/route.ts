@@ -30,7 +30,7 @@ async function buildSystemPrompt(): Promise<{ prompt: string; slots: Slot[] }> {
     });
 
     // Filter out slots that have already passed today
-    slots = allSlots.filter(s =>
+    slots = allSlots.filter((s: { date: string; time: string; [key: string]: any }) =>
       s.date > today || (s.date === today && s.time > currentTime)
     );
 
