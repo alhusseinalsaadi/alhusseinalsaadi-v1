@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
   }
   const leadsLast7Days = Object.entries(dayMap).map(([date, count]) => ({ date, count }));
 
-  const leadStatusBreakdown = leadStatusBreakdownRaw.map((r) => ({
+  const leadStatusBreakdown = leadStatusBreakdownRaw.map((r: typeof leadStatusBreakdownRaw[number]) => ({
     status: r.status,
     count: r._count.id,
   }));
