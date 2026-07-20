@@ -21,6 +21,7 @@
     "facebook-nodejs-business-sdk": "^24.0.1",
     "firebase": "^12.16.0",
     "framer-motion": "^12.38.0",
+    "gray-matter": "^4.0.3",
     "groq-sdk": "^1.2.0",
     "lru-cache": "^11.3.6",
     "lucide-react": "^1.16.0",
