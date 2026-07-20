@@ -13,20 +13,26 @@ async function requireAuth() {
 export default async function DashboardPage() {
   await requireAuth();
 
-  const recentLeads = await prisma.lead.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 5,
-    select: { id: true, name: true, phone: true, service: true, status: true, createdAt: true },
-  });
+  let recentLeads = [];
+  try {
+    const leads = await prisma.lead.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      select: { id: true, name: true, phone: true, service: true, status: true, createdAt: true },
+    });
 
-  const serialized = recentLeads.map((l: { createdAt: Date; [key: string]: any }) => ({
-    ...l,
-    createdAt: l.createdAt.toISOString(),
-  })) as any;
+    recentLeads = leads.map((l: { createdAt: Date; [key: string]: any }) => ({
+      ...l,
+      createdAt: l.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error("Dashboard database error:", error);
+    // جاري المتابعة بقائمة فارغة إذا فشلت قاعدة البيانات
+  }
 
   return (
     <AdminShell>
-      <DashboardClient recentLeads={serialized} />
+      <DashboardClient recentLeads={recentLeads} />
     </AdminShell>
   );
 }

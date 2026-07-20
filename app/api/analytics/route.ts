@@ -13,29 +13,30 @@ export async function GET(req: NextRequest) {
   const deny = requireAdmin(req);
   if (deny) return deny;
 
-  const now = new Date();
-  const sevenDaysAgo = new Date(now);
-  sevenDaysAgo.setDate(now.getDate() - 6);
-  sevenDaysAgo.setHours(0, 0, 0, 0);
+  try {
+    const now = new Date();
+    const sevenDaysAgo = new Date(now);
+    sevenDaysAgo.setDate(now.getDate() - 6);
+    sevenDaysAgo.setHours(0, 0, 0, 0);
 
-  const thirtyDaysAgo = new Date(now);
-  thirtyDaysAgo.setDate(now.getDate() - 29);
-  thirtyDaysAgo.setHours(0, 0, 0, 0);
+    const thirtyDaysAgo = new Date(now);
+    thirtyDaysAgo.setDate(now.getDate() - 29);
+    thirtyDaysAgo.setHours(0, 0, 0, 0);
 
-  const [
-    totalLeads,
-    newLeads,
-    contactedLeads,
-    closedLeads,
-    totalPosts,
-    totalAppointments,
-    bookedAppointments,
-    leadStatusBreakdownRaw,
-    recentLeads,
-    serviceBreakdownRaw,
-    leadsThisMonth,
-    leadsLastMonth,
-  ] = await Promise.all([
+    const [
+      totalLeads,
+      newLeads,
+      contactedLeads,
+      closedLeads,
+      totalPosts,
+      totalAppointments,
+      bookedAppointments,
+      leadStatusBreakdownRaw,
+      recentLeads,
+      serviceBreakdownRaw,
+      leadsThisMonth,
+      leadsLastMonth,
+    ] = await Promise.all([
     prisma.lead.count(),
     prisma.lead.count({ where: { status: "new" } }),
     prisma.lead.count({ where: { status: "contacted" } }),
@@ -86,21 +87,42 @@ export async function GET(req: NextRequest) {
   const responseRate = newLeads > 0 ? Math.round(((contactedLeads + closedLeads) / totalLeads) * 100) : 0;
   const monthGrowth = leadsLastMonth > 0 ? Math.round(((leadsThisMonth - leadsLastMonth) / leadsLastMonth) * 100) : 0;
 
-  return NextResponse.json({
-    totalLeads,
-    newLeads,
-    contactedLeads,
-    closedLeads,
-    totalPosts,
-    totalAppointments,
-    bookedAppointments,
-    leadsLast7Days,
-    leadStatusBreakdown,
-    serviceBreakdown,
-    conversionRate,
-    responseRate,
-    monthGrowth,
-    leadsThisMonth,
-    leadsLastMonth,
-  });
+    return NextResponse.json({
+      totalLeads,
+      newLeads,
+      contactedLeads,
+      closedLeads,
+      totalPosts,
+      totalAppointments,
+      bookedAppointments,
+      leadsLast7Days,
+      leadStatusBreakdown,
+      serviceBreakdown,
+      conversionRate,
+      responseRate,
+      monthGrowth,
+      leadsThisMonth,
+      leadsLastMonth,
+    });
+  } catch (error) {
+    console.error("Analytics error:", error);
+    // جاري الرد بقيم افتراضية إذا فشلت قاعدة البيانات
+    return NextResponse.json({
+      totalLeads: 0,
+      newLeads: 0,
+      contactedLeads: 0,
+      closedLeads: 0,
+      totalPosts: 0,
+      totalAppointments: 0,
+      bookedAppointments: 0,
+      leadsLast7Days: [],
+      leadStatusBreakdown: [],
+      serviceBreakdown: [],
+      conversionRate: 0,
+      responseRate: 0,
+      monthGrowth: 0,
+      leadsThisMonth: 0,
+      leadsLastMonth: 0,
+    });
+  }
 }
