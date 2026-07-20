@@ -16,8 +16,8 @@ async function fixAllCategories() {
   });
   
   console.log(`\n📊 إجمالي: ${allPosts.length} مقالة`);
-  console.log(`✅ في blog: ${allPosts.filter(p => p.category === "blog").length}`);
-  console.log(`✅ منشورة: ${allPosts.filter(p => p.published).length}`);
+  console.log(`✅ في blog: ${allPosts.filter((p: typeof allPosts[0]) => p.category === "blog").length}`);
+  console.log(`✅ منشورة: ${allPosts.filter((p: typeof allPosts[0]) => p.published).length}`);
   
   await prisma.$disconnect();
 }

@@ -14,7 +14,7 @@ async function fixCategory() {
   });
   
   console.log("\n✅ التحديث:");
-  posts.forEach(p => console.log(`- ${p.title} (${p.category})`));
+  posts.forEach((p: typeof posts[0]) => console.log(`- ${p.title} (${p.category})`));
   
   await prisma.$disconnect();
 }
