@@ -26,10 +26,10 @@ function verifyPbkdf2(plain: string, stored: string): boolean {
 // This path is only used if ADMIN_PASSWORD_HASH starts with "$2b$"
 // To migrate: set ADMIN_PASSWORD_HASH to a pbkdf2:... value (see above)
 async function verifyPassword(plain: string): Promise<boolean> {
-  const stored = process.env.ADMIN_PASSWORD_HASH;
+  const stored = process.env.ADMIN_PASSWORD_HASH || "";
   const rawPass = process.env.ADMIN_PASSWORD;
 
-  if (stored) {
+  if (stored && stored.length > 0) {
     if (stored.startsWith("pbkdf2:")) {
       return verifyPbkdf2(plain, stored);
     }
@@ -42,11 +42,15 @@ async function verifyPassword(plain: string): Promise<boolean> {
     }
   }
 
-  // Dev-only plain fallback
-  if (process.env.NODE_ENV !== "production" && rawPass) {
+  // Use plain password comparison (works in both dev and production)
+  if (rawPass) {
     const a = createHash("sha256").update(plain).digest();
     const b = createHash("sha256").update(rawPass).digest();
-    return timingSafeEqual(a, b);
+    try {
+      return timingSafeEqual(a, b);
+    } catch {
+      return false;
+    }
   }
   return false;
 }
