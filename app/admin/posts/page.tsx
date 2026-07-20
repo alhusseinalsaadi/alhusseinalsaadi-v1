@@ -14,7 +14,13 @@ async function requireAuth() {
 export default async function PostsAdminPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   await requireAuth();
   const { category = "blog" } = await searchParams;
-  const posts = await prisma.post.findMany({ where: { category }, orderBy: { createdAt: "desc" } });
+  let posts = [];
+
+  try {
+    posts = await prisma.post.findMany({ where: { category }, orderBy: { createdAt: "desc" } });
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+  }
 
   return (
     <AdminShell>
