@@ -34,9 +34,13 @@ export default async function HomePage() {
   let phone1 = "0555545533";
   try {
     const { getSiteSettings } = await import("@/lib/site-settings");
-    const settings = await getSiteSettings();
-    if (settings.whatsapp) whatsappNumber = settings.whatsapp;
-    if (settings.phone1) phone1 = settings.phone1;
+    try {
+      const settings = await getSiteSettings();
+      if (settings.whatsapp) whatsappNumber = settings.whatsapp;
+      if (settings.phone1) phone1 = settings.phone1;
+    } catch (dbError) {
+      console.warn("Database unavailable, using defaults:", dbError);
+    }
   } catch { /* use default */ }
 
   return (
