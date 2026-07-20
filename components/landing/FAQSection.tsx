@@ -142,7 +142,7 @@ export default function FAQSection() {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {faqs.map((faq, index) => (
+          {faqs.map((faq: any, index: any) => (
             <div
               key={index}
               style={{

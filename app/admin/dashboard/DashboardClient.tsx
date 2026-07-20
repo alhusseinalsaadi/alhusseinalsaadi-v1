@@ -33,12 +33,12 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; label: string }>
 
 function SparklineSVG({ data }: { data: { date: string; count: number }[] }) {
   if (!data.length) return null;
-  const counts = data.map((d) => d.count);
+  const counts = data.map((d: any) => d.count);
   const max = Math.max(...counts, 1);
   const w = 280;
   const h = 60;
   const pad = 6;
-  const points = counts.map((v, i) => {
+  const points = counts.map((v: any, i: any) => {
     const x = pad + (i / (counts.length - 1 || 1)) * (w - pad * 2);
     const y = h - pad - (v / max) * (h - pad * 2);
     return `${x},${y}`;
@@ -56,7 +56,7 @@ function SparklineSVG({ data }: { data: { date: string; count: number }[] }) {
       </defs>
       <path d={areaD} fill="url(#spark-grad)" />
       <path d={pathD} fill="none" stroke="#C9A84C" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      {counts.map((v, i) => {
+      {counts.map((v: any, i: any) => {
         const [px, py] = points[i].split(",").map(Number);
         return <circle key={i} cx={px} cy={py} r="3.5" fill="#C9A84C" />;
       })}
@@ -135,7 +135,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
     : [];
 
   const statusMax = analytics
-    ? Math.max(...analytics.leadStatusBreakdown.map((s) => s.count), 1)
+    ? Math.max(...analytics.leadStatusBreakdown.map((s: any) => s.count), 1)
     : 1;
 
   const statusColorMap: Record<string, string> = {
@@ -189,7 +189,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
       {/* KPI Cards */}
       {analytics && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", marginBottom: "28px" }}>
-          {kpiCards.map((card) => (
+          {kpiCards.map((card: any) => (
             <Link key={card.label} href={card.href} style={{ textDecoration: "none" }}>
               <div style={{
                 background: "white",
@@ -223,7 +223,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
             {analytics.leadStatusBreakdown.length === 0 ? (
               <p style={{ color: "#9CA3AF", fontSize: "14px" }}>لا توجد بيانات</p>
             ) : (
-              analytics.leadStatusBreakdown.map((s) => (
+              analytics.leadStatusBreakdown.map((s: any) => (
                 <HBar
                   key={s.status}
                   label={statusLabelMap[s.status] ?? s.status}
@@ -242,7 +242,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
             </h2>
             <SparklineSVG data={analytics.leadsLast7Days} />
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px" }}>
-              {analytics.leadsLast7Days.map((d) => (
+              {analytics.leadsLast7Days.map((d: any) => (
                 <span key={d.date} style={{ fontSize: "10px", color: "#9CA3AF" }}>
                   {new Date(d.date + "T12:00:00").toLocaleDateString("ar-SA", { weekday: "short" })}
                 </span>
@@ -262,7 +262,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
             </Link>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-            {recentLeads.map((lead) => {
+            {recentLeads.map((lead: any) => {
               const status = STATUS_COLORS[lead.status] ?? STATUS_COLORS.new;
               return (
                 <Link

@@ -64,7 +64,7 @@ export default function StatsSection() {
     <section className="gradient-hero" style={{ padding: "80px 24px" }}>
       <div style={{ maxWidth: "1152px", margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "24px" }}>
-          {stats.map((stat, index) => {
+          {stats.map((stat: any, index: any) => {
             const Icon = stat.icon;
             return (
               <div

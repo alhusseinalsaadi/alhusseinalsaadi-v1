@@ -142,7 +142,7 @@ export default function KnowledgeClient() {
       method: "PATCH", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ active: !active }),
     });
-    setSources(s => s.map(x => x.id === id ? { ...x, active: !active } : x));
+    setSources(s => s.map((x: any) => x.id === id ? { ...x, active: !active } : x));
   };
 
   const save = async (id: string, title: string, content: string) => {
@@ -150,7 +150,7 @@ export default function KnowledgeClient() {
       method: "PATCH", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, content }),
     });
-    setSources(s => s.map(x => x.id === id ? { ...x, title, content } : x));
+    setSources(s => s.map((x: any) => x.id === id ? { ...x, title, content } : x));
   };
 
   const inputStyle: React.CSSProperties = {
@@ -199,7 +199,7 @@ export default function KnowledgeClient() {
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             <p style={{ fontSize: "13px", color: "#9CA3AF", marginBottom: "4px" }}>{sources.length} مصدر — اضغط "تعديل" لتحرير أي مصدر مباشرة</p>
-            {sources.map(src => (
+            {sources.map((src: any) => (
               <SourceCard key={src.id} src={src}
                 onToggle={() => toggle(src.id, src.active)}
                 onDelete={() => remove(src.id)}

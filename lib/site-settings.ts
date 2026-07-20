@@ -19,7 +19,8 @@ export async function getSiteSettings(): Promise<Record<string, string>> {
   try {
     const rows = await prisma.siteSetting.findMany();
     const fromDb: Record<string, string> = {};
-    rows.forEach((r) => { fromDb[r.key] = r.value; });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    rows.forEach((r: any) => { fromDb[r.key] = r.value; });
     return { ...SETTING_DEFAULTS, ...fromDb };
   } catch {
     return { ...SETTING_DEFAULTS };

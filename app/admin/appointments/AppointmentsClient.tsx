@@ -121,7 +121,7 @@ export default function AppointmentsClient() {
             { label: "متاحة (مستقبلية)", count: available.length, color: "#059669", bg: "#D1FAE5", key: "available" },
             { label: "محجوزة",            count: booked.length,   color: "#D97706", bg: "#FEF3C7", key: "booked" },
             { label: "منتهية",            count: expired.length,  color: "#9CA3AF", bg: "#F3F4F6", key: "expired" },
-          ].map(s => (
+          ].map((s: any) => (
             <button key={s.key} onClick={() => setTab(s.key as "available" | "booked" | "expired")}
               style={{ flex: 1, background: tab === s.key ? s.bg : "white", border: `1.5px solid ${tab === s.key ? s.color : "#E5E5E0"}`, borderRadius: "12px", padding: "14px", cursor: "pointer", textAlign: "center", transition: "all 0.2s" }}>
               <div style={{ fontSize: "22px", fontWeight: 900, color: s.color }}>{s.count}</div>
@@ -140,7 +140,7 @@ export default function AppointmentsClient() {
           </div>
         ) : (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {(tab === "available" ? available : tab === "booked" ? booked : expired).map(slot => (
+            {(tab === "available" ? available : tab === "booked" ? booked : expired).map((slot: any) => (
               <div key={slot.id} style={{ background: "white", borderRadius: "12px", padding: "18px 22px", boxShadow: "0 2px 12px rgba(26,39,68,0.06)", border: "1px solid #E5E5E0", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: slot.clientName ? "8px" : 0 }}>

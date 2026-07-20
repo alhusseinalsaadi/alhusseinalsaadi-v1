@@ -2,7 +2,7 @@ import { prisma } from "@/lib/db";
 import { googleReviews } from "@/lib/reviews";
 import TestimonialsCarousel, { type TestimonialItem } from "./TestimonialsCarousel";
 
-const FALLBACK_TESTIMONIALS: TestimonialItem[] = googleReviews.map((r) => ({
+const FALLBACK_TESTIMONIALS: TestimonialItem[] = googleReviews.map((r: any) => ({
   id: r.id,
   name: r.name,
   content: r.text,
@@ -22,7 +22,7 @@ export default async function TestimonialsSection() {
       orderBy: { createdAt: "desc" },
       take: 6,
     });
-    dbTestimonials = rows.map((t) => ({
+    dbTestimonials = rows.map((t: any) => ({
       id: t.id,
       name: t.name,
       role: t.role,

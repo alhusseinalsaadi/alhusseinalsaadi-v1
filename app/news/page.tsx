@@ -68,7 +68,7 @@ export default async function NewsPage({
             ) : (
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {newsItems.map((item) => {
+                  {newsItems.map((item: any) => {
                     const date = item.publishedAt ?? item.createdAt;
                     return (
                       <Link key={item.slug} href={`/news/${item.slug}`} style={{ textDecoration: "none" }}>

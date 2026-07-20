@@ -20,7 +20,7 @@ export interface TestimonialItem {
 function StarRow({ rating }: { rating: number }) {
   return (
     <div style={{ display: "flex", gap: "3px" }}>
-      {[1, 2, 3, 4, 5].map((i) => (
+      {[1, 2, 3, 4, 5].map((i: any) => (
         <Star key={i} size={16} fill={i <= rating ? "#C9A84C" : "rgba(201,168,76,0.2)"} color={i <= rating ? "#C9A84C" : "rgba(201,168,76,0.2)"} />
       ))}
     </div>
@@ -201,7 +201,7 @@ export default function TestimonialsCarousel({ items }: { items: TestimonialItem
 
           {/* Dots */}
           <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-            {items.map((_, i) => (
+            {items.map((_: any, i: any) => (
               <button
                 key={i}
                 onClick={() => { setPaused(true); setCurrent(i); }}

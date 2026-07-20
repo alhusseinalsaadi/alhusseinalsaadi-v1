@@ -57,7 +57,7 @@ export default async function Footer() {
           <div>
             <h3 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "18px", fontWeight: 700, color: "#C9A84C", marginBottom: "20px" }}>خدماتنا</h3>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-              {services.map((sv) => (
+              {services.map((sv: any) => (
                 <li key={sv.id}>
                   <Link href={sv.href} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none", fontSize: "14px" }}>{sv.label}</Link>
                 </li>
@@ -69,7 +69,7 @@ export default async function Footer() {
           <div>
             <h3 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "18px", fontWeight: 700, color: "#C9A84C", marginBottom: "20px" }}>روابط سريعة</h3>
             <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-              {quickLinks.map((l) => (
+              {quickLinks.map((l: any) => (
                 <li key={l.href}>
                   <Link href={l.href} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none", fontSize: "14px" }}>{l.label}</Link>
                 </li>
@@ -125,7 +125,7 @@ export default async function Footer() {
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "10px", color: "rgba(255,255,255,0.65)", fontSize: "14px" }}>
                   <Clock size={16} style={{ color: "#C9A84C", flexShrink: 0, marginTop: "2px" }} />
                   <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                    {s.workingHours.split("\n").map((line, i) => (
+                    {s.workingHours.split("\n").map((line: any, i: any) => (
                       <span key={i}>{line}</span>
                     ))}
                   </div>

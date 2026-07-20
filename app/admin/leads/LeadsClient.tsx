@@ -169,7 +169,7 @@ export default function LeadsClient() {
 
       {/* Filter tabs */}
       <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "24px" }}>
-        {FILTER_TABS.map(tab => (
+        {FILTER_TABS.map((tab: any) => (
           <button
             key={tab.key}
             onClick={() => applyFilter(tab.key)}
@@ -190,14 +190,14 @@ export default function LeadsClient() {
       {/* Lead cards */}
       <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px" }}>
         {loading ? (
-          [1, 2, 3].map(i => <SkeletonCard key={i} />)
+          [1, 2, 3].map((i: any) => <SkeletonCard key={i} />)
         ) : leads.length === 0 ? (
           <div style={{ textAlign: "center", padding: "80px 0", color: "#6B6B6B" }}>
             <MessageSquare size={48} style={{ margin: "0 auto 16px", opacity: 0.3, display: "block" }} />
             <p style={{ fontSize: "18px" }}>لا توجد استشارات</p>
             <p style={{ fontSize: "14px", marginTop: "8px" }}>جرّب تغيير الفلتر أو البحث</p>
           </div>
-        ) : leads.map(lead => {
+        ) : leads.map((lead: any) => {
           const statusInfo = STATUS_MAP[lead.status] ?? STATUS_MAP.new;
           const convo = parseConvo(lead.conversation);
           const isUpdating = updating === lead.id;
@@ -257,7 +257,7 @@ export default function LeadsClient() {
               {/* Conversation preview */}
               {convo?.messages?.length > 0 && (
                 <div style={{ background: "#FAFAF8", borderRadius: "10px", padding: "10px 14px", maxHeight: "100px", overflowY: "auto", marginBottom: "14px", fontSize: "13px" }}>
-                  {(convo.messages as { role: string; content: string }[]).slice(-3).map((m, i) => (
+                  {(convo.messages as { role: string; content: string }[]).slice(-3).map((m: any, i: any) => (
                     <div key={i} style={{ color: m.role === "user" ? "#1A2744" : "#6B6B6B", marginBottom: "4px" }}>
                       <strong>{m.role === "user" ? "العميل:" : "سالم:"}</strong>{" "}
                       {m.content.slice(0, 120)}{m.content.length > 120 ? "..." : ""}
@@ -274,7 +274,7 @@ export default function LeadsClient() {
               {/* Actions row */}
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
                 {/* Status buttons */}
-                {Object.entries(STATUS_MAP).map(([key, val]) => (
+                {Object.entries(STATUS_MAP).map(([key, val]: any) => (
                   <button
                     key={key}
                     disabled={isUpdating || lead.status === key}

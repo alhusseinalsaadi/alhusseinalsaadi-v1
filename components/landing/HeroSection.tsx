@@ -51,7 +51,7 @@ export default function HeroSection({
           whiteSpace: "nowrap",
         }}
       >
-        {Array.from({ length: 12 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_: any, i: any) => (
           <img key={i} src="/logo.png" alt="" style={{ height: "70px", width: "auto", flexShrink: 0 }} />
         ))}
       </div>
@@ -136,7 +136,7 @@ export default function HeroSection({
           <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <div style={{ display: "flex" }}>
-                {[1, 2, 3, 4, 5].map((i) => (
+                {[1, 2, 3, 4, 5].map((i: any) => (
                   <Star key={i} size={15} fill="#C9A84C" color="#C9A84C" />
                 ))}
               </div>

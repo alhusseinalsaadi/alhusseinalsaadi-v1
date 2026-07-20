@@ -97,7 +97,7 @@ export default function ProcessSection() {
               zIndex: 1,
             }}
           >
-            {steps.map((step, index) => {
+            {steps.map((step: any, index: any) => {
               const Icon = step.icon;
               return (
                 <div key={index} style={{ textAlign: "center" }}>

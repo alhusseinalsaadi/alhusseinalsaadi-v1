@@ -30,7 +30,8 @@ async function buildSystemPrompt(): Promise<{ prompt: string; slots: Slot[] }> {
     });
 
     // Filter out slots that have already passed today
-    slots = allSlots.filter((s: { date: string; time: string; [key: string]: any }) =>
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    slots = allSlots.filter((s: any) =>
       s.date > today || (s.date === today && s.time > currentTime)
     );
 
@@ -106,7 +107,7 @@ export async function POST(req: NextRequest) {
 
   const { messages, sessionId, leadData } = parsed.data;
 
-  const cleanMessages = messages.map((m) => ({
+  const cleanMessages = messages.map((m: any) => ({
     role:    m.role,
     content: sanitizeText(m.content, 1000),
   }));
@@ -139,7 +140,7 @@ export async function POST(req: NextRequest) {
         temperature: AI_CONFIG.temperature ?? 0.6,
         messages: [
           { role: "system", content: systemPrompt },
-          ...trimmedMessages.map((m) => ({
+          ...trimmedMessages.map((m: any) => ({
             role: m.role as "user" | "assistant",
             content: m.content,
           })),

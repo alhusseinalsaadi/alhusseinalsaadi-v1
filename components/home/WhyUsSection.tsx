@@ -130,7 +130,7 @@ export default function WhyUsSection() {
               gap: "20px",
             }}
           >
-            {features.map((feature) => {
+            {features.map((feature: any) => {
               const Icon = feature.icon;
               return (
                 <div

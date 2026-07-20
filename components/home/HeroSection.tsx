@@ -70,7 +70,7 @@ export default function HeroSection({ phone1 = "0555545533" }: { phone1?: string
           whiteSpace: "nowrap",
         }}
       >
-        {Array.from({ length: 12 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_: any, i: any) => (
           <img key={i} src="/logo.png" alt="" style={{ height: "70px", width: "auto", flexShrink: 0 }} />
         ))}
       </div>
@@ -164,7 +164,7 @@ export default function HeroSection({ phone1 = "0555545533" }: { phone1?: string
           <div style={{ display: "flex", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
               <div style={{ display: "flex" }}>
-                {[1,2,3,4,5].map((i) => <Star key={i} size={15} fill="#C9A84C" color="#C9A84C" />)}
+                {[1,2,3,4,5].map((i: any) => <Star key={i} size={15} fill="#C9A84C" color="#C9A84C" />)}
               </div>
               <span style={{ color: "#C9A84C", fontWeight: 700, fontSize: "14px" }}>4.9</span>
               <span style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px" }}>(300+ موكل)</span>

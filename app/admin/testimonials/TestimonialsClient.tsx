@@ -17,7 +17,7 @@ interface Testimonial {
 function StarSelector({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   return (
     <div style={{ display: "flex", gap: "6px" }}>
-      {[1, 2, 3, 4, 5].map((i) => (
+      {[1, 2, 3, 4, 5].map((i: any) => (
         <button
           key={i}
           type="button"
@@ -38,7 +38,7 @@ function StarSelector({ value, onChange }: { value: number; onChange: (v: number
 function StarRow({ rating }: { rating: number }) {
   return (
     <div style={{ display: "flex", gap: "3px" }}>
-      {[1, 2, 3, 4, 5].map((i) => (
+      {[1, 2, 3, 4, 5].map((i: any) => (
         <Star key={i} size={14} fill={i <= rating ? "#C9A84C" : "transparent"} color={i <= rating ? "#C9A84C" : "#ccc"} />
       ))}
     </div>
@@ -252,7 +252,7 @@ export default function TestimonialsClient() {
             </div>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-              {testimonials.map((t) => (
+              {testimonials.map((t: any) => (
                 <div
                   key={t.id}
                   style={{

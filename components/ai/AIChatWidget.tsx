@@ -17,7 +17,7 @@ function SlotPicker({ slots, onPick }: { slots: { date: string; time: string; me
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "10px" }}>
-      {slots.map((s) => {
+      {slots.map((s: any) => {
         const key = `${s.date}-${s.time}`;
         const day = DAYS_AR[new Date(s.date).getDay()] ?? "";
         const isPicked = picked === key;
@@ -200,7 +200,7 @@ export default function AIChatWidget() {
 
           {/* Messages */}
           <div style={{ flex: 1, overflowY: "auto", padding: "16px", display: "flex", flexDirection: "column", gap: "12px", background: "#FAFAF8" }}>
-            {messages.map((msg, i) => (
+            {messages.map((msg: any, i: any) => (
               <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
                 <div style={{
                   maxWidth: "85%",
@@ -248,7 +248,7 @@ export default function AIChatWidget() {
             {loading && (
               <div style={{ display: "flex", justifyContent: "flex-start" }}>
                 <div style={{ background: "white", padding: "12px 16px", borderRadius: "16px 16px 16px 4px", boxShadow: "0 2px 8px rgba(0,0,0,0.08)", display: "flex", gap: "4px", alignItems: "center" }}>
-                  {[0, 1, 2].map((i) => (
+                  {[0, 1, 2].map((i: any) => (
                     <div key={i} style={{ width: "8px", height: "8px", background: "#C9A84C", borderRadius: "50%", animation: `bounce 1.4s ease-in-out ${i * 0.2}s infinite` }} />
                   ))}
                 </div>

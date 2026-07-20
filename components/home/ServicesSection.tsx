@@ -45,7 +45,7 @@ export default function ServicesSection() {
             gap: "20px",
           }}
         >
-          {services.map((service, idx) => {
+          {services.map((service: any, idx: any) => {
             const Icon = service.icon;
             return (
               <div

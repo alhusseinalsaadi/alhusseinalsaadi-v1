@@ -176,7 +176,7 @@ export default async function LeadDetailPage({
           {/* Case 1: messages array */}
           {convo?.messages && convo.messages.length > 0 && (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", maxHeight: "500px", overflowY: "auto", padding: "4px" }}>
-              {convo.messages.map((msg, i) => {
+              {convo.messages.map((msg: any, i: any) => {
                 const isUser = msg.role === "user";
                 return (
                   <div

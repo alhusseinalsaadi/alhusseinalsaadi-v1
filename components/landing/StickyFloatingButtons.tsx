@@ -93,7 +93,7 @@ export default function StickyFloatingButtons({
     >
       {expanded && (
         <div style={{ display: "flex", flexDirection: "column", gap: "12px", animation: "slideUpLanding 0.3s ease" }}>
-          {buttons.map((button, index) => {
+          {buttons.map((button: any, index: any) => {
             const Icon = button.icon;
             if (button.action === "book") {
               return (

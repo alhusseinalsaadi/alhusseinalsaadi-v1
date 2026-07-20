@@ -72,7 +72,7 @@ export default function FinalCTASection({
             { icon: CheckCircle, text: "بدون التزام" },
             { icon: CheckCircle, text: "سري تماماً" },
             { icon: CheckCircle, text: "رد فوري على واتساب" },
-          ].map((badge, i) => {
+          ].map((badge: any, i: any) => {
             const Icon = badge.icon;
             return (
               <div

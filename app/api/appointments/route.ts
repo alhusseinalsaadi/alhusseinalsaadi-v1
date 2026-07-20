@@ -50,7 +50,8 @@ export async function POST(req: NextRequest) {
   if (!parsed.success) return NextResponse.json({ error: "بيانات غير صالحة" }, { status: 422 });
 
   try {
-    const result = await prisma.$transaction(async (tx) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await prisma.$transaction(async (tx: any) => {
       // Re-check availability inside transaction to prevent race condition
       const existing = await tx.appointment.findUnique({ where: { id: parsed.data.slotId } });
       if (!existing || !existing.available) throw new Error("unavailable");

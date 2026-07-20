@@ -28,7 +28,7 @@ export default async function PagesAdminPage() {
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {editablePages.map((page) => (
+          {editablePages.map((page: any) => (
             <div key={page.slug} style={{ background: "white", borderRadius: "16px", padding: "24px 28px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", border: "1px solid #E5E5E0", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "16px", flexWrap: "wrap" }}>
               <div style={{ flex: 1 }}>
                 <h3 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "19px", fontWeight: 700, color: "#1A2744", marginBottom: "6px" }}>

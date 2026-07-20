@@ -66,7 +66,7 @@ export default async function BlogPreviewSection() {
             gap: "24px",
           }}
         >
-          {posts.map((post) => {
+          {posts.map((post: any) => {
             const date = post.publishedAt ?? post.createdAt;
             const tag = post.category || "قانوني";
             return (

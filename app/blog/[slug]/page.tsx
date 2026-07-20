@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         <section style={{ background: "white", padding: "64px 24px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
             <div style={{ fontSize: "17px", lineHeight: "1.9", color: "#1C1C1E" }}>
-              {paragraphs.map((p, i) => {
+              {paragraphs.map((p: string, i: number) => {
                 if (p.startsWith("## ")) return <h2 key={i} style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "24px", fontWeight: 700, color: "#1A2744", margin: "32px 0 12px" }}>{p.replace("## ", "")}</h2>;
                 if (p.startsWith("### ")) return <h3 key={i} style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "19px", fontWeight: 700, color: "#1A2744", margin: "24px 0 8px" }}>{p.replace("### ", "")}</h3>;
                 if (p.startsWith("- ")) return <div key={i} style={{ margin: "6px 0", paddingRight: "16px" }}>• {p.replace("- ", "")}</div>;

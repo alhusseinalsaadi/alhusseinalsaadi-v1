@@ -166,7 +166,7 @@ export default function Header({ phone1 = "0555545533", phone2 = "0122635336" }:
 
           {/* ── Desktop nav ── */}
           <nav className="hdr-desktop">
-            {navLinks.map((link) =>
+            {navLinks.map((link: any) =>
               link.children ? (
                 <div
                   key={link.label}
@@ -203,7 +203,7 @@ export default function Header({ phone1 = "0555545533", phone2 = "0122635336" }:
                         border: "1px solid rgba(26,39,68,0.06)",
                       }}
                     >
-                      {link.children.map((child, i) => (
+                      {link.children.map((child: any, i: any) => (
                         <Link
                           key={i}
                           href={child.href}
@@ -290,7 +290,7 @@ export default function Header({ phone1 = "0555545533", phone2 = "0122635336" }:
         <div className="hdr-mobile-menu">
           {/* Nav links */}
           <div style={{ flex: 1 }}>
-            {navLinks.map((link) => (
+            {navLinks.map((link: any) => (
               <div key={link.label}>
                 {link.children ? (
                   <>
@@ -309,7 +309,7 @@ export default function Header({ phone1 = "0555545533", phone2 = "0122635336" }:
 
                     {mobileServices && (
                       <div style={{ background: "rgba(0,0,0,0.2)" }}>
-                        {link.children.map((child, i) => (
+                        {link.children.map((child: any, i: any) => (
                           <Link
                             key={i}
                             href={child.href}

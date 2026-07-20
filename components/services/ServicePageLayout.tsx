@@ -46,7 +46,7 @@ export default async function ServicePageLayout({
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
+    mainEntity: faqs.map((faq: any) => ({
       "@type": "Question",
       name: faq.q,
       acceptedAnswer: {
@@ -137,7 +137,7 @@ export default async function ServicePageLayout({
                 marginTop: "32px",
               }}
             >
-              {whatWeOffer.map((item, i) => (
+              {whatWeOffer.map((item: any, i: any) => (
                 <div
                   key={i}
                   style={{
@@ -170,7 +170,7 @@ export default async function ServicePageLayout({
               className="grid-3col"
               style={{ marginTop: "48px" }}
             >
-              {steps.map((step) => (
+              {steps.map((step: any) => (
                 <div key={step.num} style={{ textAlign: "center" }}>
                   <div
                     style={{
@@ -218,7 +218,7 @@ export default async function ServicePageLayout({
                 marginTop: "32px",
               }}
             >
-              {laws.map((law, i) => (
+              {laws.map((law: any, i: any) => (
                 <div
                   key={i}
                   style={{
@@ -264,7 +264,7 @@ export default async function ServicePageLayout({
             </h2>
             <div className="gold-divider-right" />
             <div style={{ marginTop: "32px", display: "flex", flexDirection: "column", gap: "12px" }}>
-              {faqs.map((faq, i) => (
+              {faqs.map((faq: any, i: any) => (
                 <FAQItem key={i} faq={faq} />
               ))}
             </div>

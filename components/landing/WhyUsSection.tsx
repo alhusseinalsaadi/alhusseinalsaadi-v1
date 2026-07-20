@@ -117,7 +117,7 @@ export default function WhyUsSection() {
             marginBottom: "48px",
           }}
         >
-          {reasons.map((reason, index) => {
+          {reasons.map((reason: any, index: any) => {
             const Icon = reason.icon;
             return (
               <div

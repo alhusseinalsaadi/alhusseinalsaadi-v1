@@ -95,19 +95,19 @@ export default function SettingsClient() {
         ) : (
           <form onSubmit={handleSave}>
             <div style={{ background: "white", borderRadius: "16px", padding: "32px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", display: "flex", flexDirection: "column", gap: "20px" }}>
-              {fields.map(({ label, key, ltr, textarea, hint }) => (
+              {fields.map(({ label, key, ltr, textarea, hint }: any) => (
                 <div key={key}>
                   <label style={{ display: "block", fontSize: "14px", fontWeight: 600, color: "#1A2744", marginBottom: "4px" }}>{label}</label>
                   {hint && <p style={{ fontSize: "12px", color: "#9CA3AF", marginBottom: "6px" }}>{hint}</p>}
                   {textarea ? (
                     <textarea
-                      rows={3} value={form[key]}
+                      rows={3} value={form[key as keyof typeof form]}
                       onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                       style={{ ...inputStyle, resize: "vertical", direction: ltr ? "ltr" : "rtl" }}
                     />
                   ) : (
                     <input
-                      type="text" value={form[key]}
+                      type="text" value={form[key as keyof typeof form]}
                       onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                       style={{ ...inputStyle, direction: ltr ? "ltr" : "rtl" }}
                     />

@@ -86,7 +86,7 @@ export default async function BlogPage({
             ) : (
               <>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "24px" }}>
-                  {posts.map((post) => {
+                  {posts.map((post: any) => {
                     const date = post.publishedAt ?? post.createdAt;
                     return (
                       <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none" }}>

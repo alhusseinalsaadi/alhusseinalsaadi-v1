@@ -52,7 +52,7 @@ export default function StatsSection() {
           gap: "40px",
         }}
       >
-        {stats.map((stat) => (
+        {stats.map((stat: any) => (
           <div
             key={stat.label}
             style={{

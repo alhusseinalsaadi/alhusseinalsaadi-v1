@@ -111,7 +111,7 @@ export default function TestimonialsSection() {
 
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <div style={{ display: "flex", justifyContent: "center", gap: "4px", marginBottom: "12px" }}>
-            {[1, 2, 3, 4, 5].map((i) => (
+            {[1, 2, 3, 4, 5].map((i: any) => (
               <Star key={i} size={24} fill="#C9A84C" color="#C9A84C" />
             ))}
           </div>
@@ -150,7 +150,7 @@ export default function TestimonialsSection() {
 
         <div style={{ position: "relative", marginBottom: "40px", perspective: "1000px", overflow: "hidden" }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
-            {testimonials.map((testimonial, index) => (
+            {testimonials.map((testimonial: any, index: any) => (
               <div
                 key={index}
                 style={{
@@ -219,7 +219,7 @@ export default function TestimonialsSection() {
                       </div>
                     </div>
                     <div style={{ display: "flex", gap: "2px" }}>
-                      {[...Array(testimonial.rating)].map((_, i) => (
+                      {[...Array(testimonial.rating)].map((_: any, i: any) => (
                         <Star key={i} size={14} fill="#C9A84C" color="#C9A84C" />
                       ))}
                     </div>
@@ -231,7 +231,7 @@ export default function TestimonialsSection() {
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "40px" }}>
-          {testimonials.map((_, index) => (
+          {testimonials.map((_: any, index: any) => (
             <button
               key={index}
               onClick={() => goToTestimonial(index)}

@@ -92,7 +92,7 @@ export default function PainSection() {
             marginBottom: "40px",
           }}
         >
-          {pains.map((pain, index) => {
+          {pains.map((pain: any, index: any) => {
             const Icon = pain.icon;
             return (
               <div

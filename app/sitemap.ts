@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       orderBy: { publishedAt: "desc" },
     });
 
-    dynamicPages = posts.map((post) => ({
+    dynamicPages = posts.map((post: any) => ({
       url: `${SITE_URL}/${post.category === "news" ? "news" : "blog"}/${post.slug}`,
       lastModified: post.updatedAt,
       changeFrequency: "weekly" as const,

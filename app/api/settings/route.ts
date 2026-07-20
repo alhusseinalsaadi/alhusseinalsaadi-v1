@@ -18,7 +18,8 @@ const ALLOWED_KEYS = [
 export async function GET() {
   const rows = await prisma.siteSetting.findMany();
   const settings: Record<string, string> = { ...SETTING_DEFAULTS };
-  rows.forEach((r) => { settings[r.key] = r.value; });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  rows.forEach((r: any) => { settings[r.key] = r.value; });
   return NextResponse.json(settings);
 }
 
@@ -28,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   const upserts = ALLOWED_KEYS
     .filter((k) => typeof body[k] === "string")
-    .map((k) =>
+    .map((k: any) =>
       prisma.siteSetting.upsert({
         where: { key: k },
         create: { key: k, value: body[k] },
