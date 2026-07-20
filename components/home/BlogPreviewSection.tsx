@@ -1,19 +1,31 @@
 import Link from "next/link";
 import { ArrowLeft, Calendar } from "lucide-react";
-import { prisma } from "@/lib/db";
+
+const FALLBACK_POSTS = [
+  {
+    slug: "understanding-saudi-law",
+    title: "فهم الأنظمة القانونية السعودية",
+    excerpt: "شرح شامل للقوانين والأنظمة الرئيسية في المملكة العربية السعودية",
+    category: "blog",
+    publishedAt: new Date("2025-01-15"),
+    createdAt: new Date("2025-01-15"),
+  }
+];
 
 export default async function BlogPreviewSection() {
-  let posts = [];
+  let posts = FALLBACK_POSTS;
+
   try {
-    posts = await prisma.post.findMany({
+    const { prisma } = await import("@/lib/db");
+    const dbPosts = await prisma.post.findMany({
       where: { category: "blog", published: true },
       orderBy: { publishedAt: "desc" },
       take: 3,
       select: { slug: true, title: true, excerpt: true, publishedAt: true, createdAt: true, category: true },
     });
+    if (dbPosts.length > 0) posts = dbPosts;
   } catch (error) {
-    console.error("Failed to fetch posts:", error);
-    return null;
+    console.warn("Database unavailable, using fallback posts");
   }
 
   if (posts.length === 0) return null;
