@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Users, FileText, Newspaper,
   Settings, Globe, LogOut, Menu, X, ExternalLink,
-  BookOpen, CalendarDays, Star,
+  BookOpen, CalendarDays, Star, Bell,
 } from "lucide-react";
 
 const nav = [
@@ -18,6 +18,7 @@ const nav = [
   { label: "الأخبار",           href: "/admin/news",          icon: Newspaper },
   { label: "التوصيات",          href: "/admin/testimonials",  icon: Star },
   { label: "الصفحات القانونية", href: "/admin/pages",         icon: Globe },
+  { label: "الإخطارات",         href: "/admin/notifications", icon: Bell },
   { label: "المستخدمون",        href: "/admin/users",         icon: Users },
   { label: "الإعدادات",         href: "/admin/settings",      icon: Settings },
 ];
