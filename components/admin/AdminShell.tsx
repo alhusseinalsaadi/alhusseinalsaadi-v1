@@ -18,6 +18,7 @@ const nav = [
   { label: "الأخبار",           href: "/admin/news",          icon: Newspaper },
   { label: "التوصيات",          href: "/admin/testimonials",  icon: Star },
   { label: "الصفحات القانونية", href: "/admin/pages",         icon: Globe },
+  { label: "المستخدمون",        href: "/admin/users",         icon: Users },
   { label: "الإعدادات",         href: "/admin/settings",      icon: Settings },
 ];
 
