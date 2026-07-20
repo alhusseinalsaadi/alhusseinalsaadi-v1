@@ -18,6 +18,10 @@ export async function GET(req: NextRequest) {
   sevenDaysAgo.setDate(now.getDate() - 6);
   sevenDaysAgo.setHours(0, 0, 0, 0);
 
+  const thirtyDaysAgo = new Date(now);
+  thirtyDaysAgo.setDate(now.getDate() - 29);
+  thirtyDaysAgo.setHours(0, 0, 0, 0);
+
   const [
     totalLeads,
     newLeads,
@@ -28,12 +32,15 @@ export async function GET(req: NextRequest) {
     bookedAppointments,
     leadStatusBreakdownRaw,
     recentLeads,
+    serviceBreakdownRaw,
+    leadsThisMonth,
+    leadsLastMonth,
   ] = await Promise.all([
     prisma.lead.count(),
     prisma.lead.count({ where: { status: "new" } }),
     prisma.lead.count({ where: { status: "contacted" } }),
     prisma.lead.count({ where: { status: "closed" } }),
-    prisma.post.count(),
+    prisma.post.count({ where: { published: true } }),
     prisma.appointment.count(),
     prisma.appointment.count({ where: { available: false } }),
     prisma.lead.groupBy({ by: ["status"], _count: { id: true } }),
@@ -42,6 +49,9 @@ export async function GET(req: NextRequest) {
       select: { createdAt: true },
       orderBy: { createdAt: "asc" },
     }),
+    prisma.lead.groupBy({ by: ["service"], _count: { id: true } }),
+    prisma.lead.count({ where: { createdAt: { gte: new Date(now.getFullYear(), now.getMonth(), 1) } } }),
+    prisma.lead.count({ where: { createdAt: { gte: new Date(now.getFullYear(), now.getMonth() - 1, 1), lt: new Date(now.getFullYear(), now.getMonth(), 1) } } }),
   ]);
 
   // Build last-7-days array
@@ -63,6 +73,19 @@ export async function GET(req: NextRequest) {
     count: r._count.id,
   }));
 
+  const serviceBreakdown = serviceBreakdownRaw
+    .filter((s: any) => s.service)
+    .map((r: typeof serviceBreakdownRaw[number]) => ({
+      service: r.service,
+      count: r._count.id,
+    }))
+    .sort((a: any, b: any) => b.count - a.count)
+    .slice(0, 5);
+
+  const conversionRate = totalLeads > 0 ? Math.round((closedLeads / totalLeads) * 100) : 0;
+  const responseRate = newLeads > 0 ? Math.round(((contactedLeads + closedLeads) / totalLeads) * 100) : 0;
+  const monthGrowth = leadsLastMonth > 0 ? Math.round(((leadsThisMonth - leadsLastMonth) / leadsLastMonth) * 100) : 0;
+
   return NextResponse.json({
     totalLeads,
     newLeads,
@@ -73,5 +96,11 @@ export async function GET(req: NextRequest) {
     bookedAppointments,
     leadsLast7Days,
     leadStatusBreakdown,
+    serviceBreakdown,
+    conversionRate,
+    responseRate,
+    monthGrowth,
+    leadsThisMonth,
+    leadsLastMonth,
   });
 }

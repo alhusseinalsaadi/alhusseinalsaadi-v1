@@ -14,6 +14,12 @@ interface Analytics {
   leadsBySource: { source: string; count: number }[];
   leadsLast7Days: { date: string; count: number }[];
   leadStatusBreakdown: { status: string; count: number }[];
+  serviceBreakdown: { service: string; count: number }[];
+  conversionRate: number;
+  responseRate: number;
+  monthGrowth: number;
+  leadsThisMonth: number;
+  leadsLastMonth: number;
 }
 
 interface RecentLead {
@@ -108,6 +114,30 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
           accent: "#1A2744",
         },
         {
+          label: "معدل التحويل",
+          value: `${analytics.conversionRate}%`,
+          sub: `${analytics.closedLeads} استشارة مُغلقة`,
+          subColor: analytics.conversionRate > 30 ? "#059669" : "#D97706",
+          href: "/admin/leads",
+          accent: "#10B981",
+        },
+        {
+          label: "معدل الرد",
+          value: `${analytics.responseRate}%`,
+          sub: `${analytics.contactedLeads + analytics.closedLeads} ردود`,
+          subColor: analytics.responseRate > 50 ? "#059669" : "#D97706",
+          href: "/admin/leads",
+          accent: "#3B82F6",
+        },
+        {
+          label: "النمو الشهري",
+          value: `${analytics.monthGrowth > 0 ? '+' : ''}${analytics.monthGrowth}%`,
+          sub: `${analytics.leadsThisMonth} في هذا الشهر`,
+          subColor: analytics.monthGrowth > 0 ? "#059669" : "#D97706",
+          href: "/admin/leads",
+          accent: "#7C3AED",
+        },
+        {
           label: "المواعيد المحجوزة",
           value: `${analytics.bookedAppointments}/${analytics.totalAppointments}`,
           sub: "موعد محجوز",
@@ -118,18 +148,10 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
         {
           label: "مقالات المدونة",
           value: analytics.totalPosts,
-          sub: "مقال ومقال",
+          sub: "مقال منشور",
           subColor: "#6B6B6B",
           href: "/admin/posts",
           accent: "#C9A84C",
-        },
-        {
-          label: "استشارات اليوم",
-          value: analytics.leadsLast7Days[analytics.leadsLast7Days.length - 1]?.count ?? 0,
-          sub: "جديدة اليوم",
-          subColor: "#6B6B6B",
-          href: "/admin/leads",
-          accent: "#7C3AED",
         },
       ]
     : [];
@@ -188,7 +210,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
 
       {/* KPI Cards */}
       {analytics && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px", marginBottom: "28px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px", marginBottom: "28px" }}>
           {kpiCards.map((card: any) => (
             <Link key={card.label} href={card.href} style={{ textDecoration: "none" }}>
               <div style={{
@@ -214,7 +236,7 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
 
       {/* Charts row */}
       {analytics && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "28px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px", marginBottom: "28px" }}>
           {/* Status bar chart */}
           <div style={{ background: "white", borderRadius: "16px", padding: "24px 28px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", border: "1px solid #E5E5E0" }}>
             <h2 style={{ fontSize: "16px", fontWeight: 700, color: "#1A2744", marginBottom: "20px" }}>
@@ -248,6 +270,26 @@ export default function DashboardClient({ recentLeads }: { recentLeads: RecentLe
                 </span>
               ))}
             </div>
+          </div>
+
+          {/* Top services */}
+          <div style={{ background: "white", borderRadius: "16px", padding: "24px 28px", boxShadow: "0 4px 24px rgba(26,39,68,0.06)", border: "1px solid #E5E5E0" }}>
+            <h2 style={{ fontSize: "16px", fontWeight: 700, color: "#1A2744", marginBottom: "20px" }}>
+              أكثر الخدمات طلباً
+            </h2>
+            {analytics.serviceBreakdown.length === 0 ? (
+              <p style={{ color: "#9CA3AF", fontSize: "14px" }}>لا توجد بيانات</p>
+            ) : (
+              analytics.serviceBreakdown.map((s: any, idx: number) => (
+                <HBar
+                  key={s.service}
+                  label={s.service}
+                  count={s.count}
+                  max={Math.max(...analytics.serviceBreakdown.map((x: any) => x.count), 1)}
+                  color={["#C9A84C", "#3B82F6", "#10B981", "#F59E0B", "#EF4444"][idx] ?? "#1A2744"}
+                />
+              ))
+            )}
           </div>
         </div>
       )}
