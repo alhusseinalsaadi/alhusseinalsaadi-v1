@@ -1,13 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
+
 const PIXEL_ID = '1571495927725589';
 
 export default function MetaPixel() {
-  return (
-    <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.innerHTML = `
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -18,18 +18,19 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 'https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '${PIXEL_ID}');
 fbq('track', 'PageView');
-          `,
-        }}
+    `;
+    document.head.appendChild(script);
+  }, []);
+
+  return (
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style={{ display: 'none' }}
+        src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
+        alt=""
       />
-      <noscript>
-        <img
-          height="1"
-          width="1"
-          style={{ display: 'none' }}
-          src={`https://www.facebook.com/tr?id=${PIXEL_ID}&ev=PageView&noscript=1`}
-          alt=""
-        />
-      </noscript>
-    </>
+    </noscript>
   );
 }
