@@ -49,3 +49,5 @@ dev.db
 *.db-journal
 *.db-wal
 *.db-shm
+
+.vercel
