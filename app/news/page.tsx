@@ -29,16 +29,23 @@ export default async function NewsPage({
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
   const skip = (page - 1) * PER_PAGE;
 
-  const [newsItems, total] = await Promise.all([
-    prisma.post.findMany({
-      where: { category: "news", published: true },
-      orderBy: { publishedAt: "desc" },
-      select: { id: true, title: true, slug: true, excerpt: true, publishedAt: true, createdAt: true },
-      skip,
-      take: PER_PAGE,
-    }),
-    prisma.post.count({ where: { category: "news", published: true } }),
-  ]);
+  let newsItems = [];
+  let total = 0;
+
+  try {
+    [newsItems, total] = await Promise.all([
+      prisma.post.findMany({
+        where: { category: "news", published: true },
+        orderBy: { publishedAt: "desc" },
+        select: { id: true, title: true, slug: true, excerpt: true, publishedAt: true, createdAt: true },
+        skip,
+        take: PER_PAGE,
+      }),
+      prisma.post.count({ where: { category: "news", published: true } }),
+    ]);
+  } catch (error) {
+    console.warn("Database unavailable for news items");
+  }
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 

@@ -29,7 +29,7 @@ export default function ServicesPage() {
   return (
     <>
       <Header />
-      <main style={{ paddingTop: "72px" }}>
+      <main style={{ paddingTop: "72px", flex: 1 }}>
         <section className="gradient-hero" style={{ padding: "80px 24px", textAlign: "center" }}>
           <div style={{ maxWidth: "700px", margin: "0 auto" }}>
             <p style={{ color: "#C9A84C", fontWeight: 600, fontSize: "14px", letterSpacing: "2px", marginBottom: "12px" }}>

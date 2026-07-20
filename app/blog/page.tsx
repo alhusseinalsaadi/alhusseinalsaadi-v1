@@ -42,16 +42,23 @@ export default async function BlogPage({
   const page = Math.max(1, parseInt(params.page ?? "1", 10));
   const skip = (page - 1) * PER_PAGE;
 
-  const [posts, total] = await Promise.all([
-    prisma.post.findMany({
-      where: { category: "blog", published: true },
-      orderBy: { publishedAt: "desc" },
-      select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, publishedAt: true, createdAt: true },
-      skip,
-      take: PER_PAGE,
-    }),
-    prisma.post.count({ where: { category: "blog", published: true } }),
-  ]);
+  let posts = [];
+  let total = 0;
+
+  try {
+    [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        where: { category: "blog", published: true },
+        orderBy: { publishedAt: "desc" },
+        select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, publishedAt: true, createdAt: true },
+        skip,
+        take: PER_PAGE,
+      }),
+      prisma.post.count({ where: { category: "blog", published: true } }),
+    ]);
+  } catch (error) {
+    console.warn("Database unavailable for blog posts");
+  }
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
 
