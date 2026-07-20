@@ -3,12 +3,18 @@ import { ArrowLeft, Calendar } from "lucide-react";
 import { prisma } from "@/lib/db";
 
 export default async function BlogPreviewSection() {
-  const posts = await prisma.post.findMany({
-    where: { category: "blog", published: true },
-    orderBy: { publishedAt: "desc" },
-    take: 3,
-    select: { slug: true, title: true, excerpt: true, publishedAt: true, createdAt: true, category: true },
-  });
+  let posts = [];
+  try {
+    posts = await prisma.post.findMany({
+      where: { category: "blog", published: true },
+      orderBy: { publishedAt: "desc" },
+      take: 3,
+      select: { slug: true, title: true, excerpt: true, publishedAt: true, createdAt: true, category: true },
+    });
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+    return null;
+  }
 
   if (posts.length === 0) return null;
 
