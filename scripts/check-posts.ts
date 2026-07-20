@@ -9,7 +9,7 @@ async function checkPosts() {
 
   console.log(`\n📊 إجمالي المقالات: ${posts.length}`);
   console.log(`✅ المقالات المنشورة:`);
-  posts.forEach((p, i) => {
+  posts.forEach((p: typeof posts[0], i: number) => {
     const status = p.published ? "✅" : "❌";
     console.log(`${i + 1}. ${status} ${p.slug} - ${p.title}`);
   });
