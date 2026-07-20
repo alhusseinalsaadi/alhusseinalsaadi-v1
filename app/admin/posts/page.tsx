@@ -91,10 +91,15 @@ function TogglePublishButton({ postId, published }: { postId: string; published:
   return (
     <form action={async () => {
       "use server";
-      const { prisma } = await import("@/lib/db");
-      await prisma.post.update({ where: { id: postId }, data: { published: !published, publishedAt: !published ? new Date() : null } });
-      const { revalidatePath } = await import("next/cache");
-      revalidatePath("/admin/posts");
+      try {
+        const { prisma } = await import("@/lib/db");
+        await prisma.post.update({ where: { id: postId }, data: { published: !published, publishedAt: !published ? new Date() : null } });
+        const { revalidatePath } = await import("next/cache");
+        revalidatePath("/admin/posts");
+      } catch (error) {
+        console.error("Error toggling publish:", error);
+        throw new Error("فشل تحديث حالة المنشور. تحقق من الاتصال بقاعدة البيانات.");
+      }
     }}>
       <button type="submit" style={{ display: "flex", alignItems: "center", gap: "6px", background: published ? "#FEF3C7" : "#D1FAE5", color: published ? "#D97706" : "#059669", padding: "8px 14px", borderRadius: "8px", border: "none", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "'IBM Plex Arabic', sans-serif" }}>
         {published ? <><EyeOff size={13} /> إخفاء</> : <><Eye size={13} /> نشر</>}
@@ -107,10 +112,15 @@ function DeleteButton({ postId, category }: { postId: string; category: string }
   return (
     <form action={async () => {
       "use server";
-      const { prisma } = await import("@/lib/db");
-      await prisma.post.delete({ where: { id: postId } });
-      const { revalidatePath } = await import("next/cache");
-      revalidatePath("/admin/posts");
+      try {
+        const { prisma } = await import("@/lib/db");
+        await prisma.post.delete({ where: { id: postId } });
+        const { revalidatePath } = await import("next/cache");
+        revalidatePath("/admin/posts");
+      } catch (error) {
+        console.error("Error deleting post:", error);
+        throw new Error("فشل حذف المنشور. تحقق من الاتصال بقاعدة البيانات.");
+      }
     }}>
       <input type="hidden" name="category" value={category} />
       <button type="submit" style={{ display: "flex", alignItems: "center", gap: "6px", background: "#FEF2F2", color: "#DC2626", padding: "8px 14px", borderRadius: "8px", border: "none", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "'IBM Plex Arabic', sans-serif" }}>
