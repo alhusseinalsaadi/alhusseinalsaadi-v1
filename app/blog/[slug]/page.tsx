@@ -10,6 +10,32 @@ import { Calendar, ArrowRight, MessageCircle, Share2, Clock, Eye, ThumbsUp } fro
 import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/supabase-client";
 import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/metadata";
 import MarkdownIt from "markdown-it";
+import FAQSection from "@/components/blog/FAQSection";
+import { enhanceMarkdownHTML } from "@/components/blog/ContentProcessor";
+
+// Extract FAQs from markdown content
+function extractFAQs(content: string): Array<{ question: string; answer: string }> {
+  const faqs: Array<{ question: string; answer: string }> = [];
+
+  // Look for FAQ section
+  const faqMatch = content.match(/الأسئلة الشائعة\s*\{#faq\}([\s\S]*?)(?=^---|$)/m);
+  if (!faqMatch) return faqs;
+
+  const faqContent = faqMatch[1];
+
+  // Match Q&A pairs: س: question ج: answer
+  const qaRegex = /س:\s*(.+?)\n\*\*ج:\*\*\s*(.+?)(?=\n\ns:|$)/gs;
+  let match;
+
+  while ((match = qaRegex.exec(faqContent)) !== null) {
+    faqs.push({
+      question: match[1].trim(),
+      answer: match[2].trim(),
+    });
+  }
+
+  return faqs;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -82,10 +108,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
-  const htmlContent = md.render(post.content);
   const date = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt);
   const readingTime = calculateReadingTime(post.content);
   const headings = extractHeadings(post.content);
+  const faqs = extractFAQs(post.content);
+
+  // Remove FAQ section from content before rendering
+  const contentWithoutFAQ = post.content.replace(/الأسئلة الشائعة\s*\{#faq\}[\s\S]*?(?=^---|$)/m, "").trim();
+  const htmlContent = md.render(contentWithoutFAQ);
 
   // Get related posts
   const allPosts = process.env.SUPABASE_SERVICE_ROLE_KEY ? await getAllBlogPosts() : [];
@@ -195,20 +225,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               <div
                 style={{ fontSize: "17px", lineHeight: "1.9", color: "#2C2C2C" }}
                 dangerouslySetInnerHTML={{
-                  __html: htmlContent
-                    .replace(/<h2/g, '<h2 id="section" style="font-family: \'Noto Kufi Arabic\', serif; font-size: 28px; font-weight: 700; color: #1A2744; margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 3px solid #C9A84C;"')
-                    .replace(/<h3/g, '<h3 style="font-family: \'Noto Kufi Arabic\', serif; font-size: 22px; font-weight: 700; color: #2D3E5F; margin: 32px 0 16px;"')
-                    .replace(/<p/g, '<p style="margin: 16px 0; text-align: justify;"')
-                    .replace(/<a/g, '<a style="color: #C9A84C; text-decoration: underline; font-weight: 600; transition: all 0.2s;" target="_blank" rel="noopener noreferrer"')
-                    .replace(/<li/g, '<li style="margin: 10px 0; padding-right: 20px; text-align: justify;"')
-                    .replace(/<ul/g, '<ul style="margin: 16px 0; padding-right: 24px;"')
-                    .replace(/<ol/g, '<ol style="margin: 16px 0; padding-right: 24px;"')
-                    .replace(/<blockquote/g, '<blockquote style="border-right: 4px solid #C9A84C; background: #F9F7F4; padding: 16px 20px; margin: 24px 0; border-radius: 8px; font-style: italic;"')
-                    .replace(/<table/g, '<table style="width: 100%; border-collapse: collapse; margin: 24px 0;"')
-                    .replace(/<td/g, '<td style="border: 1px solid #E5E5E0; padding: 12px; text-align: right;"')
-                    .replace(/<th/g, '<th style="border: 1px solid #C9A84C; padding: 12px; text-align: right; background: #F9F7F4; font-weight: 700;"'),
+                  __html: enhanceMarkdownHTML(htmlContent),
                 }}
               />
+
+              {/* FAQ Section */}
+              {faqs.length > 0 && <FAQSection faqs={faqs} />}
 
               {/* Share Buttons */}
               <div style={{ marginTop: "48px", padding: "24px", background: "#F9F7F4", borderRadius: "12px", textAlign: "center" }}>
