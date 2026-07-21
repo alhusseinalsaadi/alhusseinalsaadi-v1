@@ -17,9 +17,11 @@ export default async function PostsAdminPage({ searchParams }: { searchParams: P
   let posts = [];
 
   try {
+    console.log("[Admin Posts] Query start - category=" + category);
     posts = await prisma.post.findMany({ where: { category }, orderBy: { createdAt: "desc" } });
-  } catch (error) {
-    console.error("Failed to fetch posts:", error);
+    console.log("[Admin Posts] Query success - found " + posts.length + " posts");
+  } catch (error: any) {
+    console.error("[Admin Posts] Query error:", error.message, error.code);
   }
 
   return (

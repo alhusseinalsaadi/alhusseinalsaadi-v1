@@ -46,7 +46,9 @@ export default async function BlogPage({
   let total = 0;
 
   try {
-    [posts, total] = await Promise.all([
+    console.log("[Blog] Query start - looking for blog posts with category='blog', published=true, skip=" + skip + ", take=" + PER_PAGE);
+
+    const [postsResult, totalCount] = await Promise.all([
       prisma.post.findMany({
         where: { category: "blog", published: true },
         orderBy: { publishedAt: "desc" },
@@ -56,8 +58,13 @@ export default async function BlogPage({
       }),
       prisma.post.count({ where: { category: "blog", published: true } }),
     ]);
-  } catch (error) {
-    console.warn("Database unavailable for blog posts");
+
+    posts = postsResult;
+    total = totalCount;
+
+    console.log("[Blog] Query success - found " + posts.length + " posts, total count: " + total);
+  } catch (error: any) {
+    console.error("[Blog] Query error:", error.message, error.code);
   }
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
