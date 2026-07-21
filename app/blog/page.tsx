@@ -46,13 +46,18 @@ export default async function BlogPage({
   let total = 0;
 
   try {
-    console.log("[Blog] Query start - using Supabase REST API, page=" + page + ", skip=" + skip + ", take=" + PER_PAGE);
+    // Skip fetch if API key not available (during build)
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.log("[Blog] Query start - using Supabase REST API, page=" + page + ", skip=" + skip + ", take=" + PER_PAGE);
 
-    const result = await getBlogPosts(page, PER_PAGE);
-    posts = result.posts;
-    total = result.total;
+      const result = await getBlogPosts(page, PER_PAGE);
+      posts = result.posts;
+      total = result.total;
 
-    console.log("[Blog] Query success - found " + posts.length + " posts, total count: " + total);
+      console.log("[Blog] Query success - found " + posts.length + " posts, total count: " + total);
+    } else {
+      console.log("[Blog] Skipping query during build (no API key)");
+    }
   } catch (error: any) {
     console.error("[Blog] Query error:", error.message);
   }

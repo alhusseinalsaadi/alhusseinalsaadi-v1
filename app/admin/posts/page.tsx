@@ -17,20 +17,25 @@ export default async function PostsAdminPage({ searchParams }: { searchParams: P
   let posts = [];
 
   try {
-    console.log("[Admin Posts] Query start - using Supabase REST API, category=" + category);
+    // Skip fetch if API key not available (during build)
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.log("[Admin Posts] Query start - using Supabase REST API, category=" + category);
 
-    // For admin, get all posts regardless of category
-    const allPosts = await getAllBlogPosts();
+      // For admin, get all posts regardless of category
+      const allPosts = await getAllBlogPosts();
 
-    // Filter by category if needed
-    if (category !== "blog") {
-      // This is a simplified version - in real app would need category filtering
-      posts = allPosts;
+      // Filter by category if needed
+      if (category !== "blog") {
+        // This is a simplified version - in real app would need category filtering
+        posts = allPosts;
+      } else {
+        posts = allPosts;
+      }
+
+      console.log("[Admin Posts] Query success - found " + posts.length + " posts");
     } else {
-      posts = allPosts;
+      console.log("[Admin Posts] Skipping query during build (no API key)");
     }
-
-    console.log("[Admin Posts] Query success - found " + posts.length + " posts");
   } catch (error: any) {
     console.error("[Admin Posts] Query error:", error.message);
   }
