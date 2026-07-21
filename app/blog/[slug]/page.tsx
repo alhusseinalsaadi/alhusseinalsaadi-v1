@@ -9,6 +9,7 @@ import CookieConsent from "@/components/ui/CookieConsent";
 import { Calendar, ArrowRight, MessageCircle } from "lucide-react";
 import { getBlogPostBySlug } from "@/lib/supabase-client";
 import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/metadata";
+import MarkdownIt from "markdown-it";
 
 export const dynamic = "force-dynamic";
 
@@ -45,7 +46,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) notFound();
 
-  const paragraphs = post.content.trim().split("\n");
+  // Parse markdown content
+  const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
+  const htmlContent = md.render(post.content);
   const date = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt);
 
   const articleSchema = {
@@ -119,15 +122,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Content */}
         <section style={{ background: "white", padding: "64px 24px" }}>
           <div style={{ maxWidth: "760px", margin: "0 auto" }}>
-            <div style={{ fontSize: "17px", lineHeight: "1.9", color: "#1C1C1E" }}>
-              {paragraphs.map((p: string, i: number) => {
-                if (p.startsWith("## ")) return <h2 key={i} style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "24px", fontWeight: 700, color: "#1A2744", margin: "32px 0 12px" }}>{p.replace("## ", "")}</h2>;
-                if (p.startsWith("### ")) return <h3 key={i} style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "19px", fontWeight: 700, color: "#1A2744", margin: "24px 0 8px" }}>{p.replace("### ", "")}</h3>;
-                if (p.startsWith("- ")) return <div key={i} style={{ margin: "6px 0", paddingRight: "16px" }}>• {p.replace("- ", "")}</div>;
-                if (p.trim() === "") return <div key={i} style={{ height: "12px" }} />;
-                return <p key={i} style={{ margin: "12px 0" }}>{p}</p>;
-              })}
-            </div>
+            <div
+              style={{ fontSize: "17px", lineHeight: "1.9", color: "#1C1C1E" }}
+              dangerouslySetInnerHTML={{
+                __html: htmlContent.replace(/<h2/g, '<h2 style="font-family: \'Noto Kufi Arabic\', serif; font-size: 24px; font-weight: 700; color: #1A2744; margin: 32px 0 12px;"').replace(/<h3/g, '<h3 style="font-family: \'Noto Kufi Arabic\', serif; font-size: 19px; font-weight: 700; color: #1A2744; margin: 24px 0 8px;"').replace(/<p/g, '<p style="margin: 12px 0;"').replace(/<a/g, '<a style="color: #C9A84C; text-decoration: underline;"').replace(/<li/g, '<li style="margin: 6px 0; padding-right: 16px;"'),
+              }}
+            />
 
             {/* CTA */}
             <div style={{ marginTop: "48px", background: "#FAFAF8", borderRadius: "16px", padding: "32px", textAlign: "center", border: "1px solid #E5E5E0" }}>
