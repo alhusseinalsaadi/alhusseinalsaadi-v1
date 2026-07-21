@@ -6,7 +6,7 @@ import AIChatWidget from "@/components/ai/AIChatWidget";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import CookieConsent from "@/components/ui/CookieConsent";
 import { Calendar, ArrowLeft, BookOpen, ChevronRight, ChevronLeft } from "lucide-react";
-import { prisma } from "@/lib/db";
+import { getBlogPosts } from "@/lib/supabase-client";
 import { getSiteSettings } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
@@ -46,25 +46,15 @@ export default async function BlogPage({
   let total = 0;
 
   try {
-    console.log("[Blog] Query start - looking for blog posts with category='blog', published=true, skip=" + skip + ", take=" + PER_PAGE);
+    console.log("[Blog] Query start - using Supabase REST API, page=" + page + ", skip=" + skip + ", take=" + PER_PAGE);
 
-    const [postsResult, totalCount] = await Promise.all([
-      prisma.post.findMany({
-        where: { category: "blog", published: true },
-        orderBy: { publishedAt: "desc" },
-        select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, publishedAt: true, createdAt: true },
-        skip,
-        take: PER_PAGE,
-      }),
-      prisma.post.count({ where: { category: "blog", published: true } }),
-    ]);
-
-    posts = postsResult;
-    total = totalCount;
+    const result = await getBlogPosts(page, PER_PAGE);
+    posts = result.posts;
+    total = result.total;
 
     console.log("[Blog] Query success - found " + posts.length + " posts, total count: " + total);
   } catch (error: any) {
-    console.error("[Blog] Query error:", error.message, error.code);
+    console.error("[Blog] Query error:", error.message);
   }
 
   const totalPages = Math.max(1, Math.ceil(total / PER_PAGE));
