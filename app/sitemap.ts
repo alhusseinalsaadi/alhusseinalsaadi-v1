@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/db";
+import { getAllBlogPosts } from "@/lib/supabase-client";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/about`,                         lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/contact`,                       lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
     { url: `${SITE_URL}/blog`,                          lastModified: new Date(), changeFrequency: "daily",   priority: 0.8 },
-    { url: `${SITE_URL}/news`,                          lastModified: new Date(), changeFrequency: "daily",   priority: 0.7 },
     { url: `${SITE_URL}/services`,                      lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE_URL}/services/legal-consulting`,     lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
     { url: `${SITE_URL}/services/contract-review`,      lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
@@ -25,18 +24,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let dynamicPages: MetadataRoute.Sitemap = [];
   try {
-    const posts = await prisma.post.findMany({
-      where: { published: true },
-      select: { slug: true, category: true, publishedAt: true, updatedAt: true },
-      orderBy: { publishedAt: "desc" },
-    });
-
-    dynamicPages = posts.map((post: any) => ({
-      url: `${SITE_URL}/${post.category === "news" ? "news" : "blog"}/${post.slug}`,
-      lastModified: post.updatedAt,
-      changeFrequency: "weekly" as const,
-      priority: 0.8,
-    }));
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const posts = await getAllBlogPosts();
+      dynamicPages = posts.map((post: any) => ({
+        url: `${SITE_URL}/blog/${post.slug}`,
+        lastModified: new Date(post.updatedAt),
+        changeFrequency: "weekly" as const,
+        priority: 0.8,
+      }));
+    }
   } catch {
     // DB unavailable during build — dynamic pages will be omitted
   }

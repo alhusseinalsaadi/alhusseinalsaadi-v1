@@ -322,5 +322,3 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     </>
   );
 }
-
-const ThumbsUp = ({ size }: { size: number }) => <span style={{ display: "inline-block" }}>👍</span>;
