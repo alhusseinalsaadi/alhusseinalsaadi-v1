@@ -7,34 +7,46 @@ import AIChatWidget from "@/components/ai/AIChatWidget";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import CookieConsent from "@/components/ui/CookieConsent";
 import { Calendar, ArrowRight, MessageCircle } from "lucide-react";
-import { prisma } from "@/lib/db";
+import { getBlogPostBySlug } from "@/lib/supabase-client";
 import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await prisma.post.findFirst({ where: { slug, published: true } });
+
+  // Skip metadata generation during build if API key not available
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return { title: "جاري التحميل" };
+  }
+
+  const post = await getBlogPostBySlug(slug);
   if (!post) return { title: "مقال غير موجود" };
+
   return buildPageMeta({
     title: post.title,
     description: post.excerpt || post.content.slice(0, 160),
     path: `/blog/${slug}`,
     ogImage: post.coverImage,
     type: "article",
-    publishedTime: (post.publishedAt ?? post.createdAt).toISOString(),
-    modifiedTime: post.updatedAt.toISOString(),
+    publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : new Date(post.createdAt).toISOString(),
+    modifiedTime: new Date(post.updatedAt).toISOString(),
   });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await prisma.post.findFirst({ where: { slug, published: true } });
+
+  // Skip fetching during build if API key not available
+  let post = null;
+  if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    post = await getBlogPostBySlug(slug);
+  }
 
   if (!post) notFound();
 
   const paragraphs = post.content.trim().split("\n");
-  const date = post.publishedAt ?? post.createdAt;
+  const date = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -42,8 +54,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt || post.content.slice(0, 160),
     image: post.coverImage || DEFAULT_OG_IMAGE,
-    datePublished: (post.publishedAt ?? post.createdAt).toISOString(),
-    dateModified: post.updatedAt.toISOString(),
+    datePublished: new Date(post.publishedAt ?? post.createdAt).toISOString(),
+    dateModified: new Date(post.updatedAt).toISOString(),
     author: { "@type": "Organization", name: SITE_NAME },
     publisher: {
       "@type": "Organization",

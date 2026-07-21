@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { getPostById, updatePost, deletePost } from "@/lib/supabase-client";
 import { cookies } from "next/headers";
 import { sanitizeText, sanitizeSlug, PostSchema } from "@/lib/security";
 
@@ -15,9 +15,17 @@ export async function GET(
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 401 });
   }
+
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: "خادم البيانات غير متاح" }, { status: 503 });
+  }
+
   const { id } = await params;
   try {
-    const post = await prisma.post.findUniqueOrThrow({ where: { id } });
+    const post = await getPostById(id);
+    if (!post) {
+      return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });
+    }
     return NextResponse.json(post);
   } catch {
     return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });
@@ -30,6 +38,10 @@ export async function PUT(
 ) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 401 });
+  }
+
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: "خادم البيانات غير متاح" }, { status: 503 });
   }
 
   const { id } = await params;
@@ -48,19 +60,20 @@ export async function PUT(
 
   const d = parsed.data;
   try {
-    const post = await prisma.post.update({
-      where: { id },
-      data: {
-        title:       sanitizeText(d.title, 300),
-        slug:        d.slug ? sanitizeSlug(d.slug) : undefined,
-        content:     sanitizeText(d.content, 50000),
-        excerpt:     d.excerpt ? sanitizeText(d.excerpt, 500) : undefined,
-        category:    d.category,
-        coverImage:  d.coverImage !== undefined ? (d.coverImage || null) : undefined,
-        published:   d.published,
-        publishedAt: d.published ? new Date() : null,
-      },
+    const post = await updatePost(id, {
+      title:       sanitizeText(d.title, 300),
+      slug:        d.slug ? sanitizeSlug(d.slug) : undefined,
+      content:     sanitizeText(d.content, 50000),
+      excerpt:     d.excerpt ? sanitizeText(d.excerpt, 500) : undefined,
+      category:    d.category,
+      coverImage:  d.coverImage !== undefined ? (d.coverImage || null) : undefined,
+      published:   d.published,
     });
+
+    if (!post) {
+      return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });
+    }
+
     return NextResponse.json(post);
   } catch {
     return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });
@@ -75,13 +88,20 @@ export async function DELETE(
     return NextResponse.json({ error: "غير مصرح" }, { status: 401 });
   }
 
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: "خادم البيانات غير متاح" }, { status: 503 });
+  }
+
   const { id } = await params;
   if (!id || typeof id !== "string" || id.length > 100) {
     return NextResponse.json({ error: "معرّف غير صالح" }, { status: 400 });
   }
 
   try {
-    await prisma.post.delete({ where: { id } });
+    const success = await deletePost(id);
+    if (!success) {
+      return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });
+    }
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "لم يُعثر على المنشور" }, { status: 404 });

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
+import { getAllPosts, createPost } from "@/lib/supabase-client";
 import { cookies } from "next/headers";
 import {
   rateLimiters, getIP, tooManyRequests,
@@ -12,6 +12,10 @@ async function isAdmin(): Promise<boolean> {
 }
 
 export async function GET(req: NextRequest) {
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json([]);
+  }
+
   const { searchParams } = new URL(req.url);
   const category  = sanitizeText(searchParams.get("category") ?? "blog", 20);
   const pubParam  = searchParams.get("published");
@@ -20,18 +24,17 @@ export async function GET(req: NextRequest) {
   const validCategories = ["blog", "news"];
   const safeCategory = validCategories.includes(category) ? category : "blog";
 
-  const posts = await prisma.post.findMany({
-    where:   { category: safeCategory, ...(published ? { published: true } : {}) },
-    orderBy: { publishedAt: "desc" },
-    select:  { id: true, title: true, slug: true, excerpt: true, category: true, published: true, publishedAt: true, createdAt: true },
-  });
-
+  const posts = await getAllPosts(safeCategory, published);
   return NextResponse.json(posts);
 }
 
 export async function POST(req: NextRequest) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 401 });
+  }
+
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: "خادم البيانات غير متاح" }, { status: 503 });
   }
 
   const ip = getIP(req);
@@ -48,18 +51,19 @@ export async function POST(req: NextRequest) {
   }
 
   const d = parsed.data;
-  const post = await prisma.post.create({
-    data: {
-      title:       sanitizeText(d.title, 300),
-      slug:        sanitizeSlug(d.slug ?? d.title),
-      content:     sanitizeText(d.content, 50000),
-      excerpt:     sanitizeText(d.excerpt ?? d.content.slice(0, 200), 500),
-      category:    d.category,
-      coverImage:  d.coverImage || null,
-      published:   d.published,
-      publishedAt: d.published ? new Date() : null,
-    },
+  const post = await createPost({
+    title:       sanitizeText(d.title, 300),
+    slug:        sanitizeSlug(d.slug ?? d.title),
+    content:     sanitizeText(d.content, 50000),
+    excerpt:     sanitizeText(d.excerpt ?? d.content.slice(0, 200), 500),
+    category:    d.category,
+    coverImage:  d.coverImage || null,
+    published:   d.published,
   });
+
+  if (!post) {
+    return NextResponse.json({ error: "خطأ في إنشاء المنشور" }, { status: 500 });
+  }
 
   return NextResponse.json(post, { status: 201 });
 }
