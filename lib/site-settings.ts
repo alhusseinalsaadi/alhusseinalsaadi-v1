@@ -16,6 +16,11 @@ export const SETTING_DEFAULTS: Record<string, string> = {
 };
 
 export async function getSiteSettings(): Promise<Record<string, string>> {
+  // Skip database query if DATABASE_URL is not set
+  if (!process.env.DATABASE_URL) {
+    return { ...SETTING_DEFAULTS };
+  }
+
   try {
     const rows = await prisma.siteSetting.findMany();
     const fromDb: Record<string, string> = {};
