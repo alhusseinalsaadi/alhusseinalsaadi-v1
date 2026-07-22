@@ -10,6 +10,7 @@ import { Calendar, ArrowRight, MessageCircle, Clock, Eye, ThumbsUp } from "lucid
 import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/supabase-client";
 import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/metadata";
 import MarkdownIt from "markdown-it";
+import markdownItAttrs from "markdown-it-attrs";
 import FAQSection from "@/components/blog/FAQSection";
 import ShareButtons from "@/components/blog/ShareButtons";
 import ArticleCover from "@/components/blog/ArticleCover";
@@ -109,7 +110,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) notFound();
 
-  const md = new MarkdownIt({ html: true, linkify: true, typographer: true });
+  const md = new MarkdownIt({ html: true, linkify: true, typographer: true }).use(markdownItAttrs);
   const date = post.publishedAt ? new Date(post.publishedAt) : new Date(post.createdAt);
   const readingTime = calculateReadingTime(post.content);
   const headings = extractHeadings(post.content);
