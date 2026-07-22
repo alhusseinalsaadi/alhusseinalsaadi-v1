@@ -16,24 +16,7 @@ export const SETTING_DEFAULTS: Record<string, string> = {
 };
 
 export async function getSiteSettings(): Promise<Record<string, string>> {
-  // Skip database query if DATABASE_URL is not set or in build environment
-  if (!process.env.DATABASE_URL || process.env.VERCEL_ENV === "production" && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return { ...SETTING_DEFAULTS };
-  }
-
-  try {
-    // Set a 5 second timeout for database query
-    const queryPromise = prisma.siteSetting.findMany();
-    const timeoutPromise = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("Database query timeout")), 5000)
-    );
-
-    const rows = await Promise.race([queryPromise, timeoutPromise]) as any[];
-    const fromDb: Record<string, string> = {};
-    rows.forEach((r: any) => { fromDb[r.key] = r.value; });
-    return { ...SETTING_DEFAULTS, ...fromDb };
-  } catch {
-    // Return defaults on any database error
-    return { ...SETTING_DEFAULTS };
-  }
+  // In serverless environments (Vercel), always use defaults
+  // Prisma direct connections don't work with ephemeral containers
+  return { ...SETTING_DEFAULTS };
 }
