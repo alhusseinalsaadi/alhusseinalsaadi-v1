@@ -12,6 +12,7 @@ import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/meta
 import MarkdownIt from "markdown-it";
 import FAQSection from "@/components/blog/FAQSection";
 import ShareButtons from "@/components/blog/ShareButtons";
+import ArticleCover from "@/components/blog/ArticleCover";
 import { enhanceMarkdownHTML } from "@/components/blog/ContentProcessor";
 
 // Extract FAQs from markdown content
@@ -145,9 +146,64 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <Header />
-      <main style={{ paddingTop: "72px" }}>
+      <style>{`
+        .article-main { padding-top: 72px; }
+        .article-hero { padding: 60px 24px; background: linear-gradient(135deg, #1A2744 0%, #2D3E5F 100%); }
+        .article-body { background: white; padding: 40px 24px 60px; }
+        .article-grid {
+          max-width: 900px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 300px;
+          gap: 40px;
+        }
+        .article-sidebar {
+          position: sticky;
+          top: 100px;
+          height: fit-content;
+        }
+        .article-cta { background: linear-gradient(135deg, #1A2744 0%, #2D3E5F 100%); padding: 60px 24px; }
+        .article-cta-title { font-family: 'Noto Kufi Arabic', serif; font-size: 36px; font-weight: 900; margin-bottom: 16px; }
+        .article-cta-lead  { font-size: 18px; line-height: 1.8; margin-bottom: 28px; opacity: 0.9; }
+
+        /* Article rendered content: force long tokens/tables to fit */
+        .article-content { overflow-wrap: break-word; word-wrap: break-word; }
+        .article-content img { max-width: 100%; height: auto; border-radius: 8px; }
+        .article-content pre { overflow-x: auto; max-width: 100%; }
+        .article-content table { display: block; overflow-x: auto; max-width: 100%; }
+
+        @media (max-width: 768px) {
+          .article-content              { font-size: 16px !important; line-height: 1.85 !important; }
+          .article-content h2           { font-size: 22px !important; margin: 36px 0 14px !important; padding-bottom: 12px !important; }
+          .article-content h3           { font-size: 18px !important; margin: 24px 0 12px !important; }
+          .article-content p            { font-size: 16px !important; text-align: right !important; }
+          .article-content li           { font-size: 16px !important; padding-right: 12px !important; }
+          .article-content blockquote   { padding: 14px 16px !important; margin: 18px 0 !important; }
+          .article-content th,
+          .article-content td           { padding: 8px !important; font-size: 14px !important; }
+        }
+
+        @media (max-width: 900px) {
+          .article-grid { grid-template-columns: 1fr; gap: 32px; }
+          .article-sidebar { position: static; top: auto; }
+        }
+        @media (max-width: 768px) {
+          .article-hero { padding: 40px 16px; }
+          .article-body { padding: 24px 16px 40px; }
+          .article-cta  { padding: 40px 16px; }
+          .article-cta-title { font-size: 26px; }
+          .article-cta-lead  { font-size: 16px; }
+        }
+        @media (max-width: 480px) {
+          .article-hero { padding: 32px 14px; }
+          .article-body { padding: 20px 14px 32px; }
+          .article-cta  { padding: 32px 14px; }
+          .article-cta-title { font-size: 22px; }
+        }
+      `}</style>
+      <main className="article-main">
         {/* Hero Section */}
-        <section className="gradient-hero" style={{ padding: "60px 24px", background: "linear-gradient(135deg, #1A2744 0%, #2D3E5F 100%)" }}>
+        <section className="article-hero">
           <div style={{ maxWidth: "900px", margin: "0 auto" }}>
             <nav aria-label="breadcrumb" style={{ marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
               <Link href="/" style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "13px", display: "inline-flex", alignItems: "center", gap: "4px", transition: "all 0.3s" }}>
@@ -187,23 +243,12 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         </section>
 
-        {/* Cover Image */}
-        {post.coverImage && (
-          <div style={{ background: "white", padding: "0 24px" }}>
-            <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-              <img
-                src={post.coverImage}
-                alt={post.title}
-                loading="lazy"
-                style={{ width: "100%", height: "420px", objectFit: "cover", borderRadius: "12px", marginTop: "-60px", boxShadow: "0 10px 40px rgba(26,39,68,0.15)", marginBottom: "40px" }}
-              />
-            </div>
-          </div>
-        )}
+        {/* Cover Image (with graceful fallback to branded placeholder) */}
+        <ArticleCover src={post.coverImage || ""} alt={post.title} />
 
         {/* Main Content Area */}
-        <section style={{ background: "white", padding: "40px 24px 60px" }}>
-          <div style={{ maxWidth: "900px", margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 300px", gap: "40px" }}>
+        <section className="article-body">
+          <div className="article-grid">
             {/* Article Content */}
             <div>
               {/* Table of Contents */}
@@ -224,6 +269,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
               {/* Article Content */}
               <div
+                className="article-content"
                 style={{ fontSize: "17px", lineHeight: "1.9", color: "#2C2C2C" }}
                 dangerouslySetInnerHTML={{
                   __html: enhanceMarkdownHTML(htmlContent),
@@ -238,7 +284,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
 
             {/* Sidebar */}
-            <div style={{ position: "sticky", top: "100px", height: "fit-content" }}>
+            <div className="article-sidebar">
               {/* CTA Box */}
               <div style={{ background: "linear-gradient(135deg, #C9A84C 0%, #D4B957 100%)", borderRadius: "16px", padding: "28px 24px", color: "white", marginBottom: "24px", boxShadow: "0 10px 30px rgba(201, 168, 76, 0.2)" }}>
                 <h3 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "20px", fontWeight: 700, marginBottom: "12px" }}>استشارة قانونية</h3>
@@ -288,10 +334,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </section>
 
         {/* CTA Section */}
-        <section style={{ background: "linear-gradient(135deg, #1A2744 0%, #2D3E5F 100%)", padding: "60px 24px" }}>
+        <section className="article-cta">
           <div style={{ maxWidth: "700px", margin: "0 auto", textAlign: "center", color: "white" }}>
-            <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: "36px", fontWeight: 900, marginBottom: "16px" }}>تحتاج إلى مساعدة قانونية؟</h2>
-            <p style={{ fontSize: "18px", lineHeight: "1.8", marginBottom: "28px", opacity: 0.9 }}>فريقنا المتخصص جاهز لمساعدتك في جميع القضايا القانونية — الاستشارة الأولى مجانية بالكامل</p>
+            <h2 className="article-cta-title">تحتاج إلى مساعدة قانونية؟</h2>
+            <p className="article-cta-lead">فريقنا المتخصص جاهز لمساعدتك في جميع القضايا القانونية — الاستشارة الأولى مجانية بالكامل</p>
             <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/contact" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#C9A84C", color: "#1A2744", padding: "14px 32px", borderRadius: "10px", textDecoration: "none", fontWeight: 700, fontSize: "16px", transition: "all 0.3s" }}>
                 <ThumbsUp size={18} /> احجز استشارتك الآن
