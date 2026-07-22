@@ -8,7 +8,7 @@ const DEFAULTS = {
   officeName:   "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة",
   phone1:       "0555545533",
   phone2:       "0122635336",
-  email:        "alhusseinalmojan@gmail.com",
+  email:        "info@alhusseinalsaadi.sa",
   address:      "جدة - شارع التحلية خلف مبنى الرياض بلازا",
   whatsapp:     "966555545533",
   twitter:      "",

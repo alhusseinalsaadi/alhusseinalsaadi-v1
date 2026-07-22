@@ -33,7 +33,7 @@ export default async function LandingPage() {
   let whatsappNumber = "966555545533";
   let phone1 = "0555545533";
   let phone2 = "0122635336";
-  let email = "alhusseinalmojan@gmail.com";
+  let email = "info@alhusseinalsaadi.sa";
   let address = "جدة - شارع التحلية خلف مبنى الرياض بلازا";
   let officeName = "مكتب الحسين بن أحمد بن حسين السعدي للمحاماة";
   try {

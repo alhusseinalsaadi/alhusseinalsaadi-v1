@@ -5,7 +5,7 @@ import { Phone, Mail, MapPin, Shield } from "lucide-react";
 export default function Footer({
   phone1 = "0555545533",
   phone2 = "0122635336",
-  email = "alhusseinalmojan@gmail.com",
+  email = "info@alhusseinalsaadi.sa",
   address = "جدة - شارع التحلية خلف مبنى الرياض بلازا",
 }: {
   phone1?: string;

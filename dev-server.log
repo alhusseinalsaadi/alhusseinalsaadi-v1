@@ -1,0 +1,20 @@
+
+> legal-site@0.1.0 dev
+> next dev
+
+⚠ Port 3000 is in use by process 42296, using available port 3002 instead.
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://192.168.56.1:3002
+- Environments: .env.local, .env
+✓ Ready in 1460ms
+⚠ turbopack.root should be absolute, using: C:\Users\DTG\legal-site
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          26560
+- Dir:          C:\Users\DTG\legal-site
+- Log:          .next\dev\logs\next-development.log
+
+Run taskkill /PID 26560 /F to stop it.
+[?25h

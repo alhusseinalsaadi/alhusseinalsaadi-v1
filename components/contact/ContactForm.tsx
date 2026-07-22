@@ -30,7 +30,7 @@ export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState("");
-  const [settings, setSettings]   = useState({ phone1: "0555545533", phone2: "0122635336", email: "alhusseinalmojan@gmail.com", address: "جدة - شارع التحلية، خلف مبنى الرياض بلازا", workingHours: "الأحد – الخميس: 8 ص – 8 م" });
+  const [settings, setSettings]   = useState({ phone1: "0555545533", phone2: "0122635336", email: "info@alhusseinalsaadi.sa", address: "جدة - شارع التحلية، خلف مبنى الرياض بلازا", workingHours: "الأحد – الخميس: 8 ص – 8 م" });
 
   useEffect(() => {
     fetch("/api/settings").then(r => r.json()).then(setSettings).catch(() => {});
