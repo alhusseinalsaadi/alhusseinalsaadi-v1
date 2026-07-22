@@ -117,33 +117,39 @@ export default async function BlogPage({
               </div>
             ) : (
               <>
+                <style>{`
+                  .blog-card {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                    border-radius: 16px;
+                    background: white;
+                    border: 1px solid #E5E5E0;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 12px rgba(26,39,68,0.08);
+                    cursor: pointer;
+                  }
+                  .blog-card:hover {
+                    box-shadow: 0 12px 32px rgba(26,39,68,0.15);
+                    transform: translateY(-4px);
+                  }
+                  .blog-card-image {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.4s ease;
+                  }
+                  .blog-card:hover .blog-card-image {
+                    transform: scale(1.05);
+                  }
+                `}</style>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "28px" }}>
                   {posts.map((post: any, index: number) => {
                     const date = post.publishedAt ?? post.createdAt;
                     return (
                       <Link key={post.slug} href={`/blog/${post.slug}`} style={{ textDecoration: "none" }}>
-                        <article
-                          style={{
-                            height: "100%",
-                            display: "flex",
-                            flexDirection: "column",
-                            overflow: "hidden",
-                            borderRadius: "16px",
-                            background: "white",
-                            border: "1px solid #E5E5E0",
-                            transition: "all 0.3s ease",
-                            boxShadow: "0 4px 12px rgba(26,39,68,0.08)",
-                            cursor: "pointer"
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.boxShadow = "0 12px 32px rgba(26,39,68,0.15)";
-                            e.currentTarget.style.transform = "translateY(-4px)";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.boxShadow = "0 4px 12px rgba(26,39,68,0.08)";
-                            e.currentTarget.style.transform = "translateY(0)";
-                          }}
-                        >
+                        <article className="blog-card">
                           {/* Cover Image */}
                           <div style={{ position: "relative", overflow: "hidden", height: "200px", background: "#F0EDE6" }}>
                             {post.coverImage && (
@@ -151,14 +157,7 @@ export default async function BlogPage({
                                 src={post.coverImage}
                                 alt={post.title}
                                 loading="lazy"
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  objectFit: "cover",
-                                  transition: "transform 0.4s ease"
-                                }}
-                                onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-                                onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                                className="blog-card-image"
                               />
                             )}
                             {/* Badge */}

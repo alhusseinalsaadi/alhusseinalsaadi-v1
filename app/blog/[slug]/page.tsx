@@ -6,11 +6,12 @@ import Footer from "@/components/layout/Footer";
 import AIChatWidget from "@/components/ai/AIChatWidget";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import CookieConsent from "@/components/ui/CookieConsent";
-import { Calendar, ArrowRight, MessageCircle, Share2, Clock, Eye, ThumbsUp } from "lucide-react";
+import { Calendar, ArrowRight, MessageCircle, Clock, Eye, ThumbsUp } from "lucide-react";
 import { getBlogPostBySlug, getAllBlogPosts } from "@/lib/supabase-client";
 import { buildPageMeta, SITE_URL, SITE_NAME, DEFAULT_OG_IMAGE } from "@/lib/metadata";
 import MarkdownIt from "markdown-it";
 import FAQSection from "@/components/blog/FAQSection";
+import ShareButtons from "@/components/blog/ShareButtons";
 import { enhanceMarkdownHTML } from "@/components/blog/ContentProcessor";
 
 // Extract FAQs from markdown content
@@ -233,20 +234,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {faqs.length > 0 && <FAQSection faqs={faqs} />}
 
               {/* Share Buttons */}
-              <div style={{ marginTop: "48px", padding: "24px", background: "#F9F7F4", borderRadius: "12px", textAlign: "center" }}>
-                <p style={{ color: "#6B6B6B", marginBottom: "16px", fontSize: "14px" }}>شارك هذه المقالة</p>
-                <div style={{ display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap" }}>
-                  <button style={{ background: "#1A2744", color: "white", border: "none", padding: "10px 20px", borderRadius: "8px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 600 }} onClick={() => navigator.share?.({ title: post.title, url: `${SITE_URL}/blog/${slug}` })}>
-                    <Share2 size={16} /> شارك
-                  </button>
-                  <a href={`https://wa.me/?text=${encodeURIComponent(post.title + " " + SITE_URL + "/blog/" + slug)}`} target="_blank" rel="noopener noreferrer" style={{ background: "#25D366", color: "white", padding: "10px 20px", borderRadius: "8px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 600 }}>
-                    واتس آب
-                  </a>
-                  <a href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(SITE_URL + "/blog/" + slug)}`} target="_blank" rel="noopener noreferrer" style={{ background: "#1DA1F2", color: "white", padding: "10px 20px", borderRadius: "8px", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "8px", fontSize: "14px", fontWeight: 600 }}>
-                    تويتر
-                  </a>
-                </div>
-              </div>
+              <ShareButtons title={post.title} url={`${SITE_URL}/blog/${slug}`} />
             </div>
 
             {/* Sidebar */}
